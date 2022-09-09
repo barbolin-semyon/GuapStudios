@@ -5,6 +5,7 @@ import com.example.guapstudios.R
 
 sealed class Screens(val route: String) {
     object AuthorizationScreen : Screens("authorization")
+    object MainScreen: Screens("main")
 }
 
 sealed class AuthorizationScreen(val route: String) {
