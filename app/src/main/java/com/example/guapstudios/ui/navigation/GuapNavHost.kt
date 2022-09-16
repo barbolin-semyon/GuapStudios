@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.guapstudios.ui.features.authorization.LoginView
+import com.example.guapstudios.ui.features.authorization.RegisterView
 
 @Composable
 fun GuapNavHost(navController: NavHostController) {
@@ -25,11 +27,11 @@ fun NavGraphBuilder.authorization(navController: NavHostController) {
         route = Screens.AuthorizationScreen.route
     ) {
         composable(AuthorizationScreen.LoginScreen.route) {
-
+            LoginView(navController = navController)
         }
 
         composable(AuthorizationScreen.RegisterScreen.route) {
-
+            RegisterView(navController = navController)
         }
     }
 }
