@@ -10,7 +10,7 @@ object RetrofitClient {
     fun getAuthorizationRetrofitService(): Retrofit {
         if (retrofitService == null) {
             retrofitService = Retrofit.Builder()
-                .baseUrl("http://0.0.0.0:8080/")
+                .baseUrl("http://192.168.0.178:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }
