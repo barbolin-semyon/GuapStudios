@@ -2,7 +2,11 @@ package com.example.guapstudios.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
-val Purple700 = Color(0xFF3700B3)
-val Teal200 = Color(0xFF03DAC5)
+val BlueLight = Color(0xffb1efff)
+val Blue = Color(0xFF2B8FB3)
+val BlueDark = Color(0xFF004863)
+val YellowLight = Color(0xffffffe1)
+val Yellow = Color(0xFFFFDA90)
+val YellowDark = Color(0xffcbbc7f)
+
+val Gray = Color(0xFFFAFAFA)
