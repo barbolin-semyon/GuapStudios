@@ -21,15 +21,12 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val snackBarState = rememberScaffoldState()
 
-                GuapNavHost(navController = navController)
-
-
                 Scaffold(
                     scaffoldState = snackBarState,
                     bottomBar = { BottomNavigationBar(navController) },
 
                     content = {
-
+                        GuapNavHost(navController = navController)
                     }
                 )
             }

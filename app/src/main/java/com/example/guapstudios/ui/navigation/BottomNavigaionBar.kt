@@ -20,8 +20,8 @@ fun BottomNavigationBar(navController: NavController) {
     val state by navController.currentBackStackEntryAsState()
     val route = state?.destination?.route
 
-    if (route != AuthorizationScreen.LoginScreen.route
-        && route != AuthorizationScreen.RegisterScreen.route
+    if (route != AuthorizationScreens.LoginScreen.route
+        && route != AuthorizationScreens.RegisterScreen.route
     ) {
         BottomNavigation {
             listOfScreensForBottomNav.forEach { screen ->

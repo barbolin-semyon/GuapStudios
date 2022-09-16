@@ -8,9 +8,9 @@ sealed class Screens(val route: String) {
     object MainScreen: Screens("main")
 }
 
-sealed class AuthorizationScreen(val route: String) {
-    object LoginScreen : AuthorizationScreen("login")
-    object RegisterScreen : AuthorizationScreen("register")
+sealed class AuthorizationScreens(val route: String) {
+    object LoginScreen : AuthorizationScreens("login")
+    object RegisterScreen : AuthorizationScreens("register")
 }
 
 sealed class MainScreens(val route: String, val text: String, @DrawableRes val icon: Int) {
