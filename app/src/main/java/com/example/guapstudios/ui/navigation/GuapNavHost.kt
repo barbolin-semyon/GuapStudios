@@ -15,6 +15,9 @@ fun GuapNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screens.AuthorizationScreen.route) {
         composable(Screens.AuthorizationScreen.route) {
             authorization(navController = navController)
+        }
+
+        composable(Screens.MainScreen.route) {
             main(navController = navController)
         }
     }
