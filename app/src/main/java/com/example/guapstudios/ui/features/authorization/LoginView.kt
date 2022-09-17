@@ -44,12 +44,7 @@ fun LoginView(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(
-            text = "Авторизация",
-            color = Blue,
-            fontWeight = FontWeight.Bold,
-            fontSize = 48.sp
-        )
+        AuthorizationTitle(text = "Авторизация")
 
         Card(
             modifier = Modifier
@@ -64,65 +59,22 @@ fun LoginView(navController: NavController) {
             }
         }
 
-        ButtonsAuthorization(
-            onClickLogin = { viewModel.login(LoginReciveModel(login.value, password.value)) },
-            onClickRegister = {
-                navController.navigate(AuthorizationScreens.RegisterScreen.route)
-            }
+        AuthorizationButton(
+            onClick = { viewModel.login(LoginReciveModel(login.value, password.value)) },
+            text = "Войти"
+        )
+
+        AuthorizationButton(
+            onClick = { navController.navigate(AuthorizationScreens.RegisterScreen.route) },
+            text = "Зарегистрироваться"
         )
 
         ObserverIsAuthorization(viewModel, navController)
-    }
-
-}
-
-@Composable
-fun ObserverIsAuthorization(viewModel: AuthorizationViewModel, navController: NavController) {
-    val isAuthorization = viewModel.isAuthorization.observeAsState()
-
-    if (isAuthorization.value == true) {
-        navController.navigate(Screens.MainScreen.route) {
-            navController.graph.startDestinationRoute?.let {
-                popUpTo(it) {
-                    inclusive = true
-                    saveState = true
-                }
-            }
-
-            launchSingleTop = true
-            restoreState = true
-        }
-    }
-}
-
-@Composable
-fun ButtonsAuthorization(onClickLogin: () -> Unit, onClickRegister: () -> Unit) {
-    Button(
-        onClick = { onClickLogin() },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        elevation = ButtonDefaults.elevation(8.dp),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Text(text = "Войти", fontSize = 18.sp)
-    }
-
-    Button(
-        onClick = { onClickRegister() },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp),
-        elevation = ButtonDefaults.elevation(8.dp),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Text(text = "Зарегистрироваться", fontSize = 18.sp)
     }
 }
 
 @Composable
 fun IllustrationCard() {
-
     Column(
         modifier = Modifier
             .padding(bottom = 8.dp)
@@ -139,7 +91,7 @@ fun IllustrationCard() {
 }
 
 @Composable
-fun FieldsForWrite(login: MutableState<String>, password: MutableState<String>) {
+private fun FieldsForWrite(login: MutableState<String>, password: MutableState<String>) {
 
     AuthorizationTextField(
         text = login.value,
@@ -151,27 +103,5 @@ fun FieldsForWrite(login: MutableState<String>, password: MutableState<String>) 
         text = password.value,
         onValueChange = { password.value = it },
         textLabel = "Введите пароль"
-    )
-
-
-}
-
-@Composable
-fun AuthorizationTextField(
-    text: String,
-    onValueChange: (newValue: String) -> Unit,
-    textLabel: String
-) {
-    TextField(
-        value = text,
-        onValueChange = { onValueChange(it) },
-        label = { Text(text = textLabel) },
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
-        ),
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 7.dp)
     )
 }
