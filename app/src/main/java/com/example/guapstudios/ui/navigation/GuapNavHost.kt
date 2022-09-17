@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.guapstudios.ui.features.authorization.LoginView
 import com.example.guapstudios.ui.features.authorization.RegisterView
+import com.example.guapstudios.ui.features.main.currentProject.CurrentProjectView
 
 @Composable
 fun GuapNavHost(navController: NavHostController) {
@@ -43,7 +44,7 @@ private fun NavGraphBuilder.main(navController: NavHostController) {
 
         }
         composable(MainScreens.CurrentProjectScreen.route) {
-            LoginView(navController = navController)
+            CurrentProjectView(navController)
         }
         composable(MainScreens.TechTaskScreen.route) { }
     }
