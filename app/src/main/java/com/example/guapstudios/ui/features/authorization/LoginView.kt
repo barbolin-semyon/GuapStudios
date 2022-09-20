@@ -66,10 +66,12 @@ fun LoginView(navController: NavController) {
 
         AuthorizationButton(
             onClick = { navController.navigate(AuthorizationScreens.RegisterScreen.route) },
-            text = "Зарегистрироваться"
+            text = "Зарегистрироваться",
+            paddingValues = PaddingValues(top = 8.dp)
         )
 
         ObserverIsAuthorization(viewModel, navController)
+        ObserverSaveToken(viewModel)
     }
 }
 

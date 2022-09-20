@@ -13,8 +13,8 @@ import com.example.guapstudios.ui.features.authorization.RegisterView
 import com.example.guapstudios.ui.features.main.currentProject.CurrentProjectView
 
 @Composable
-fun GuapNavHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screens.AuthorizationScreen.route) {
+fun GuapNavHost(navController: NavHostController, startDestination: String) {
+    NavHost(navController = navController, startDestination = startDestination) {
         authorization(navController = navController)
         main(navController = navController)
     }

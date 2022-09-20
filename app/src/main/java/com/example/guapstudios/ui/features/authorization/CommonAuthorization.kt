@@ -1,5 +1,9 @@
 package com.example.guapstudios.ui.features.authorization
 
+import android.annotation.SuppressLint
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,11 +52,12 @@ fun AuthorizationTextField(
 }
 
 @Composable
-fun AuthorizationButton(onClick : () -> Unit, text: String) {
+fun AuthorizationButton(onClick : () -> Unit, text: String, paddingValues: PaddingValues = PaddingValues()) {
     Button(
         onClick = { onClick() },
         modifier = Modifier
             .fillMaxWidth()
+            .padding(paddingValues)
             .padding(horizontal = 16.dp),
         elevation = ButtonDefaults.elevation(8.dp),
         shape = RoundedCornerShape(16.dp)
@@ -76,5 +82,17 @@ fun ObserverIsAuthorization(viewModel: AuthorizationViewModel, navController: Na
             launchSingleTop = true
             restoreState = true
         }
+    }
+}
+
+@SuppressLint("CommitPrefEdits")
+@Composable
+fun ObserverSaveToken(viewModel: AuthorizationViewModel) {
+    val token = viewModel.token.observeAsState()
+    val context = LocalContext.current
+
+    if (token.value!!.isNotEmpty()) {
+        val pref = context.applicationContext.getSharedPreferences("authorization", MODE_PRIVATE)
+        pref.edit().putString("token", token.value).commit()
     }
 }

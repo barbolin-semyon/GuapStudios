@@ -1,5 +1,7 @@
 package com.example.guapstudios.viewModel
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,11 +26,18 @@ class AuthorizationViewModel : ViewModel() {
     val isAuthorization: LiveData<Boolean>
         get() = _isAuthorization
 
+    private val _token = MutableLiveData("")
+    val token : LiveData<String>
+        get() = _token
+
     fun login(reciveModel: LoginReciveModel) {
         client.login(reciveModel).enqueue(object : Callback<TokenModel> {
             override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
                 if (response.isSuccessful) {
-                    response.body()?.let { getUserByToken(it) }
+                    response.body()?.let {
+                        _token.value = it.token
+                        getUserByToken(it)
+                    }
                 } else {
                     Log.i("Retrofit", "login viewMOdel error: ${response.errorBody()}")
                 }
@@ -45,7 +54,10 @@ class AuthorizationViewModel : ViewModel() {
         client.register(registerReciveModel).enqueue(object : Callback<TokenModel> {
             override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
                 if (response.isSuccessful) {
-                    response.body()?.let { getUserByToken(it) }
+                    response.body()?.let {
+                        _token.value = it.token
+                        getUserByToken(it)
+                    }
                 } else {
                     Log.i("Retrofit", "login viewMOdel error: ${response.errorBody()}")
                 }

@@ -17,6 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.doctors.ui.StudiousSpinner
 import com.example.guapstudios.data.emptities.LoginReciveModel
+import com.example.guapstudios.data.emptities.RegisterReciveModel
 import com.example.guapstudios.data.emptities.Studio
 import com.example.guapstudios.data.emptities.studious
 import com.example.guapstudios.ui.navigation.AuthorizationScreens
@@ -61,11 +62,19 @@ fun RegisterView(navController: NavController) {
         }
 
         AuthorizationButton(
-            onClick = { viewModel.login(LoginReciveModel(login.value, password.value)) },
+            onClick = { viewModel.register(RegisterReciveModel(
+                login = login.value,
+                password = password.value,
+                username = username.value,
+                email = email.value,
+                typeStudio = typeStudio.value!!.id,
+                isAdmin = isAdmin.value,
+            )) },
             text = "Зарегистрироваться"
         )
 
         ObserverIsAuthorization(viewModel, navController)
+        ObserverSaveToken(viewModel)
     }
 }
 
