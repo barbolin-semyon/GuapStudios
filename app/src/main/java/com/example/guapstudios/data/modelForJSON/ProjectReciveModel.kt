@@ -2,7 +2,7 @@ package com.example.guapstudios.data.modelForJSON
 
 @kotlinx.serialization.Serializable
 data class ListStringReceiveModel(
-    val ides: List<String>
+    val ides: Array<String>
 )
 
 @kotlinx.serialization.Serializable
