@@ -1,21 +1,18 @@
 package com.example.guapstudios.viewModel
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.guapstudios.data.RetrofitClient
-import com.example.guapstudios.data.emptities.LoginReciveModel
-import com.example.guapstudios.data.emptities.RegisterReciveModel
-import com.example.guapstudios.data.emptities.TokenModel
+import com.example.guapstudios.data.modelForJSON.LoginReciveModel
+import com.example.guapstudios.data.modelForJSON.RegisterReciveModel
+import com.example.guapstudios.data.modelForJSON.TokenModel
 import com.example.guapstudios.data.emptities.User
 import com.example.guapstudios.data.retrofitService.AuthorizationRetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 class AuthorizationViewModel : ViewModel() {
 

@@ -1,4 +1,4 @@
-package com.example.guapstudios.data.emptities
+package com.example.guapstudios.data.modelForJSON
 
 data class LoginReciveModel(
     val login: String,

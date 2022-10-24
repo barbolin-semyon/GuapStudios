@@ -7,29 +7,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.guapstudios.R
-import com.example.guapstudios.data.emptities.LoginReciveModel
-import com.example.guapstudios.data.emptities.TokenModel
+import com.example.guapstudios.data.modelForJSON.LoginReciveModel
 import com.example.guapstudios.ui.navigation.AuthorizationScreens
-import com.example.guapstudios.ui.navigation.Screens
-import com.example.guapstudios.ui.theme.Blue
 import com.example.guapstudios.ui.theme.Yellow
-import com.example.guapstudios.ui.theme.YellowDark
-import com.example.guapstudios.ui.theme.YellowLight
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
 @Composable
