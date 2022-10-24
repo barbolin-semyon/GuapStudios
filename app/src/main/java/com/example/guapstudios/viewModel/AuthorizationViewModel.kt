@@ -16,6 +16,9 @@ import retrofit2.Response
 
 class AuthorizationViewModel : ViewModel() {
 
+    var user: User? = null
+        private set
+
     private val client = RetrofitClient.getAuthorizationRetrofitService()
         .create(AuthorizationRetrofitService::class.java)
 
@@ -70,6 +73,7 @@ class AuthorizationViewModel : ViewModel() {
         client.getUserByToken(tokenModel).enqueue( object  : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
+                    user = response.body()
                     _isAuthorization.value = true
                 } else {
                     Log.i("Retrofit", "login viewMOdel error: ${response.errorBody()}")
