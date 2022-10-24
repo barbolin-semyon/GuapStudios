@@ -19,7 +19,7 @@ class AuthorizationViewModel : ViewModel() {
     var user: User? = null
         private set
 
-    private val client = RetrofitClient.getAuthorizationRetrofitService()
+    private val client = RetrofitClient.getRetrofitService()
         .create(AuthorizationRetrofitService::class.java)
 
     private val _isAuthorization = MutableLiveData<Boolean>(false)
