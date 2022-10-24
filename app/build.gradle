@@ -73,4 +73,6 @@ dependencies {
 
     //noinspection GradleDependency
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 }
