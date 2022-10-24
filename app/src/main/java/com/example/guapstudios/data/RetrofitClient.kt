@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     private var retrofitService: Retrofit? = null
 
-    fun getAuthorizationRetrofitService(): Retrofit {
+    fun getRetrofitService(): Retrofit {
         if (retrofitService == null) {
             retrofitService = Retrofit.Builder()
                 .baseUrl("http://192.168.0.178:8080/")
