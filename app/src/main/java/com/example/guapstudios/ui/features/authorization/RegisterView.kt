@@ -18,7 +18,6 @@ import androidx.navigation.NavController
 import com.example.doctors.ui.StudiousSpinner
 import com.example.guapstudios.data.modelForJSON.RegisterReciveModel
 import com.example.guapstudios.data.emptities.Studio
-import com.example.guapstudios.data.emptities.studious
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
 @Composable
@@ -65,7 +64,7 @@ fun RegisterView(navController: NavController) {
                 password = password.value,
                 username = username.value,
                 email = email.value,
-                typeStudio = typeStudio.value!!.id,
+                typeStudio = "event",
                 isAdmin = isAdmin.value,
             )
             ) },
@@ -112,7 +111,7 @@ private fun FieldsForWrite(
             textLabel = "Введите email"
         )
 
-        StudiousSpinner(
+        /*StudiousSpinner(
             items = studious,
             tint = Color.Gray,
             hint = "Выберите студию",
@@ -122,6 +121,6 @@ private fun FieldsForWrite(
         Row(modifier = Modifier.padding(start = 16.dp)) {
             Checkbox(checked = isAdmin.value, onCheckedChange = {isAdmin.value = it})
             Text ("Вы администратор студии?")
-        }
+        }*/
     }
 }

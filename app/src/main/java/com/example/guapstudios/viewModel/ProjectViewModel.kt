@@ -28,7 +28,7 @@ class ProjectViewModel : ViewModel() {
     fun getStudioInformation(typeStudio: String) {
         clientStudio.getStudio(typeStudio).enqueue(object : Callback<Studio> {
             override fun onResponse(call: Call<Studio>, response: Response<Studio>) {
-
+                currentStudio.value = response.body()
             }
 
             override fun onFailure(call: Call<Studio>, t: Throwable) {
@@ -38,7 +38,7 @@ class ProjectViewModel : ViewModel() {
         })
     }
 
-    fun getProjectsInStudiou(typeStudio: String) {
+    fun getProjectsInStudious(typeStudio: String) {
         getStudioInformation(typeStudio)
 
         currentStudio.observeForever {

@@ -21,7 +21,7 @@ import com.example.guapstudios.data.emptities.Studio
 @Composable
 fun StudiousSpinner(
     items: List<Studio>,
-    hint: String = items[0].title,
+    hint: String = items[0].id,
     tint: Color = Color.White,
     padding: PaddingValues = PaddingValues(),
     onClick: (text: Studio) -> Unit,
@@ -63,10 +63,10 @@ fun StudiousSpinner(
             for (item in items) {
                 DropdownMenuItem(onClick = {
                     onClick(item)
-                    label.value = item.title
+                    label.value = item.id
                     isExpand.value = false
                 }) {
-                    Text(text = item.title)
+                    Text(text = item.id)
                 }
             }
         }

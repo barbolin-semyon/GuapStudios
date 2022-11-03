@@ -19,10 +19,11 @@ class AuthorizationViewModel : ViewModel() {
     var user: User? = null
         private set
 
+
     private val client = RetrofitClient.getRetrofitService()
         .create(AuthorizationRetrofitService::class.java)
 
-    private val _isAuthorization = MutableLiveData<Boolean>(false)
+    private val _isAuthorization = MutableLiveData<Boolean>()
     val isAuthorization: LiveData<Boolean>
         get() = _isAuthorization
 
@@ -70,7 +71,7 @@ class AuthorizationViewModel : ViewModel() {
     }
 
     fun getUserByToken(tokenModel: TokenModel) {
-        client.getUserByToken(tokenModel).enqueue( object  : Callback<User> {
+        client.getUserByToken(tokenModel.token).enqueue( object  : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
                     user = response.body()
