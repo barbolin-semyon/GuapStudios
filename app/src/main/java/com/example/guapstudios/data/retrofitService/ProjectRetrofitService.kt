@@ -10,6 +10,6 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ProjectRetrofitService {
-    @GET
+    @POST("/project/get")
     fun getProjects(@Body projects: ListStringReceiveModel): Call<ListResponceModel<Project>>
 }

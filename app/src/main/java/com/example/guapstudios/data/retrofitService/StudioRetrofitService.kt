@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface StudioRetrofitService {
-    @GET("/studious/get")
-    fun getStudio(@Query("id") id: String): Call<Studio>
+    @GET("/studios/get")
+    fun getStudio(@Query("name") name: String): Call<Studio>
 }
