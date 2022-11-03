@@ -1,6 +1,5 @@
 package com.example.guapstudios.ui.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -11,12 +10,21 @@ import androidx.navigation.navigation
 import com.example.guapstudios.ui.features.authorization.LoginView
 import com.example.guapstudios.ui.features.authorization.RegisterView
 import com.example.guapstudios.ui.features.main.currentProject.CurrentProjectView
+import com.example.guapstudios.ui.features.splash.SplashView
+import com.example.guapstudios.viewModel.AuthorizationViewModel
 
 @Composable
-fun GuapNavHost(navController: NavHostController, startDestination: String) {
-    NavHost(navController = navController, startDestination = startDestination) {
+fun GuapNavHost(navController: NavHostController, authorizationViewModel: AuthorizationViewModel) {
+    NavHost(navController = navController, startDestination = Screens.Splash.route) {
         authorization(navController = navController)
-        main(navController = navController)
+        main(navController = navController, authorizationViewModel)
+
+        composable(Screens.Splash.route) {
+            SplashView(
+                navController = navController,
+                authorizationViewModel = authorizationViewModel
+            )
+        }
     }
 }
 
@@ -35,7 +43,10 @@ private fun NavGraphBuilder.authorization(navController: NavController) {
     }
 }
 
-private fun NavGraphBuilder.main(navController: NavHostController) {
+private fun NavGraphBuilder.main(
+    navController: NavHostController,
+    authorizationViewModel: AuthorizationViewModel
+) {
     navigation(
         startDestination = MainScreens.CurrentProjectScreen.route,
         route = Screens.MainScreen.route
@@ -44,7 +55,7 @@ private fun NavGraphBuilder.main(navController: NavHostController) {
 
         }
         composable(MainScreens.CurrentProjectScreen.route) {
-            CurrentProjectView(navController)
+            CurrentProjectView(navController, authorizationViewModel = authorizationViewModel)
         }
         composable(MainScreens.TechTaskScreen.route) { }
     }
