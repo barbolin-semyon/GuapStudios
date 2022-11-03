@@ -6,7 +6,9 @@ import com.example.guapstudios.data.modelForJSON.TokenModel
 import com.example.guapstudios.data.emptities.User
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface AuthorizationRetrofitService {
     @POST("login")
@@ -15,6 +17,6 @@ interface AuthorizationRetrofitService {
     @POST("register")
     fun register(@Body registerReciveModel: RegisterReciveModel): Call<TokenModel>
 
-    @POST("token")
-    fun getUserByToken(@Body tokenModel: TokenModel): Call<User>
+    @GET("performToken")
+    fun getUserByToken(@Query("token") token: String): Call<User>
 }
