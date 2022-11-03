@@ -22,6 +22,7 @@ fun BottomNavigationBar(navController: NavController) {
 
     if (route != AuthorizationScreens.LoginScreen.route
         && route != AuthorizationScreens.RegisterScreen.route
+        && route != Screens.Splash.route
     ) {
         BottomNavigation {
             listOfScreensForBottomNav.forEach { screen ->
