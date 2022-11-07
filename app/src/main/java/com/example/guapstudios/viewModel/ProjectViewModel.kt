@@ -3,22 +3,31 @@ package com.example.guapstudios.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.guapstudios.data.RetrofitClient
 import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.data.emptities.Studio
 import com.example.guapstudios.data.modelForJSON.ListResponceModel
 import com.example.guapstudios.data.modelForJSON.ListStringReceiveModel
+import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
+import com.example.guapstudios.data.modelForJSON.ProjectUpdateReceiveModel
 import com.example.guapstudios.data.retrofitService.ProjectRetrofitService
 import com.example.guapstudios.data.retrofitService.StudioRetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
+
 class ProjectViewModel : ViewModel() {
 
     private val  _projects = MutableLiveData<List<Project>>()
     val projects: LiveData<List<Project>>
         get() = _projects
+
+    private val _stateLoading = MutableLiveData<StateForRetrofit>(StateForRetrofit.Empty)
+    val stateLoading: LiveData<StateForRetrofit>
+        get() = _stateLoading
 
     private val currentStudio = MutableLiveData<Studio>()
 
@@ -64,5 +73,34 @@ class ProjectViewModel : ViewModel() {
                     })
             }
         }
+    }
+
+    fun addProjectInStudious(projectReceiveModel: ProjectReceiveModel) {
+        _stateLoading.value = StateForRetrofit.Loading
+
+        clientProject.addProject(projectReceiveModel).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                _stateLoading.value = StateForRetrofit.Loaded
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                _stateLoading.value = StateForRetrofit.Error(t.message)
+            }
+
+        })
+    }
+
+    fun updateProjectInStudious(projectUpdateReceiveModel: ProjectUpdateReceiveModel) {
+        _stateLoading.value = StateForRetrofit.Loading
+
+        clientProject.updateProject(projectUpdateReceiveModel).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                _stateLoading.value = StateForRetrofit.Loaded
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                _stateLoading.value = StateForRetrofit.Error(t.message)
+            }
+        })
     }
 }
