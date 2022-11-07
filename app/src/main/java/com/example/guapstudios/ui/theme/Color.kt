@@ -2,11 +2,10 @@ package com.example.guapstudios.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BlueLight = Color(0x41C5F0FA)
-val Blue = Color(0xFF2B8FB3)
-val BlueDark = Color(0xFF004863)
-val YellowLight = Color(0xffffffe1)
-val Yellow = Color(0xFFFFE8B9)
-val YellowDark = Color(0xffcbbc7f)
-
+val Magenta = Color(0xFF7879F1)
+val Magenta2 = Color(0xFFA5A6F6)
+val Red = Color(0xffFFAFAF)
+val Yellow = Color(0xFFFFE4AF)
+val Green = Color(0xffC1FFE1)
+val Blue = Color(0xFF6FB6DE)
 val Gray = Color(0xFFFAFAFA)
