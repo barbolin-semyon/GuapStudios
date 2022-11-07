@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -19,6 +20,8 @@ import androidx.navigation.NavController
 import com.example.guapstudios.R
 import com.example.guapstudios.data.modelForJSON.TokenModel
 import com.example.guapstudios.ui.navigation.Screens
+import com.example.guapstudios.ui.theme.Magenta
+import com.example.guapstudios.ui.theme.Magenta2
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
 @Composable
@@ -27,7 +30,7 @@ fun SplashView(navController: NavController, authorizationViewModel: Authorizati
     Column(
         Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.onSecondary),
+            .background(brush = Brush.verticalGradient(listOf(Magenta2, Magenta))),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
