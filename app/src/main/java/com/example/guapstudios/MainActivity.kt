@@ -3,7 +3,10 @@ package com.example.guapstudios
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.guapstudios.ui.navigation.BottomNavigationBar
@@ -27,7 +30,9 @@ class MainActivity : ComponentActivity() {
                     bottomBar = { BottomNavigationBar(navController) },
 
                     content = {
-                        GuapNavHost(navController = navController, authorizationViewModel = viewModel)
+                        Box(modifier = Modifier.padding(it)) {
+                            GuapNavHost(navController = navController, authorizationViewModel = viewModel)
+                        }
                     }
                 )
             }
