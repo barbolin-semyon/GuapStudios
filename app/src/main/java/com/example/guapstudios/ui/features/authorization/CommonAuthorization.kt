@@ -2,7 +2,6 @@ package com.example.guapstudios.ui.features.authorization
 
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,14 +17,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.guapstudios.ui.navigation.Screens
-import com.example.guapstudios.ui.theme.Blue
+import com.example.guapstudios.ui.theme.Magenta
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
 @Composable
 fun AuthorizationTitle(text: String) {
     Text(
         text = text,
-        color = Blue,
+        color = Magenta,
         fontWeight = FontWeight.Bold,
         fontSize = 48.sp
     )
