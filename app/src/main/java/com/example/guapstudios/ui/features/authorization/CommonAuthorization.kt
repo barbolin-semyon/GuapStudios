@@ -2,6 +2,7 @@ package com.example.guapstudios.ui.features.authorization
 
 import android.annotation.SuppressLint
 import android.content.Context.MODE_PRIVATE
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -18,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.guapstudios.ui.navigation.Screens
 import com.example.guapstudios.ui.theme.Magenta
+import com.example.guapstudios.ui.theme.Magenta2
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
 @Composable
@@ -59,7 +62,7 @@ fun AuthorizationButton(onClick : () -> Unit, text: String, paddingValues: Paddi
             .padding(paddingValues)
             .padding(horizontal = 16.dp),
         elevation = ButtonDefaults.elevation(8.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ) {
         Text(text = text, fontSize = 18.sp)
     }

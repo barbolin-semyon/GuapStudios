@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,6 +19,8 @@ import androidx.navigation.NavController
 import com.example.guapstudios.R
 import com.example.guapstudios.data.modelForJSON.LoginReciveModel
 import com.example.guapstudios.ui.navigation.AuthorizationScreens
+import com.example.guapstudios.ui.theme.Magenta
+import com.example.guapstudios.ui.theme.Magenta2
 import com.example.guapstudios.ui.theme.Yellow
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
@@ -69,7 +72,7 @@ fun IllustrationCard() {
     Column(
         modifier = Modifier
             .padding(bottom = 8.dp)
-            .background(Yellow)
+            .background(brush = Brush.verticalGradient(listOf(Magenta2, Magenta)))
             .padding(8.dp)
     ) {
         Image(
