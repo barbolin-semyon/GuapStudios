@@ -3,14 +3,14 @@ package com.example.guapstudios.ui.features.main.currentProject
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,7 +21,10 @@ import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 import com.example.guapstudios.viewModel.ProjectViewModel
 import com.example.guapstudios.R
+import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
 import com.example.guapstudios.ui.theme.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun CurrentProjectView(
@@ -32,34 +35,62 @@ fun CurrentProjectView(
 
 
     projectViewModel.getProjectsInStudious(authorizationViewModel.user!!.typeStudio)
-    observeProjectViewModel(projectViewModel = projectViewModel, navController = navController)
+    observeProjectViewModel(
+        authorizationViewModel = authorizationViewModel,
+        projectViewModel = projectViewModel,
+        navController = navController
+    )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun observeProjectViewModel(
+    authorizationViewModel: AuthorizationViewModel,
     projectViewModel: ProjectViewModel,
     navController: NavController
 ) {
     val projects = projectViewModel.projects.observeAsState()
 
     if (projects.value != null) {
+        BottomActionSheetWithContent(
+            action = { name, description ->
 
-        Column {
+                val user = authorizationViewModel.user!!
 
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp, horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Проекты",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold
+                projectViewModel.addProjectInStudious(
+                    projectReceiveModel = ProjectReceiveModel(
+                        studio = user.typeStudio,
+                        adminId = user.login,
+                        title = name,
+                        description = description
+                    )
                 )
-
-                ButtonToAdd(navController = navController)
             }
+        ) { state, scope ->
 
-            cardsProjects(projects = projects.value!!, navController = navController)
+            Column {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 32.dp, horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Проекты",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    ButtonToAdd {
+                        scope.launch {
+                            state.show()
+                        }
+                    }
+                }
+
+                cardsProjects(projects = projects.value!!, navController = navController)
+            }
         }
 
     } else {
@@ -84,9 +115,9 @@ private fun cardsProjects(projects: List<Project>, navController: NavController)
 }
 
 @Composable
-private fun ButtonToAdd(navController: NavController) {
+private fun ButtonToAdd(action: () -> Unit) {
     IconButton(
-        onClick = { },
+        onClick = { action() },
         content = {
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_add_24),
@@ -96,3 +127,4 @@ private fun ButtonToAdd(navController: NavController) {
         }
     )
 }
+
