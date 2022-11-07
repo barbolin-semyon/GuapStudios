@@ -5,6 +5,7 @@ import com.example.guapstudios.data.modelForJSON.ListResponceModel
 import com.example.guapstudios.data.modelForJSON.ListStringReceiveModel
 import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
 import com.example.guapstudios.data.modelForJSON.ProjectUpdateReceiveModel
+import kotlinx.serialization.Serializable
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,4 +21,10 @@ interface ProjectRetrofitService {
 
     @POST("/project/update")
     fun updateProject(@Body projectUpdateReceiveModel: ProjectUpdateReceiveModel): Call<String>
+
+    @Serializable
+    data class ProjectDeleteReceiveModel(
+        val id: String,
+        val studioId: String
+    )
 }
