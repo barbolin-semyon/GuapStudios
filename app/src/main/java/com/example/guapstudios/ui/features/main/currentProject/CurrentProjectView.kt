@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -44,16 +45,23 @@ private fun observeProjectViewModel(
     if (projects.value != null) {
 
         Column {
-            Text(
-                text = "Проекты",
-                modifier = Modifier.padding(bottom = 32.dp, start = 16.dp, top = 32.dp),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp, horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Проекты",
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                ButtonToAdd(navController = navController)
+            }
+
             cardsProjects(projects = projects.value!!, navController = navController)
         }
 
-        FUBToAdd(navController = navController)
     } else {
 
     }
@@ -76,23 +84,15 @@ private fun cardsProjects(projects: List<Project>, navController: NavController)
 }
 
 @Composable
-private fun FUBToAdd(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.End,
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        FloatingActionButton(
-            onClick = { },
-            backgroundColor = Yellow,
-            content = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                    contentDescription = "add",
-                )
-            }
-        )
-    }
+private fun ButtonToAdd(navController: NavController) {
+    IconButton(
+        onClick = { },
+        content = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                contentDescription = "add",
+                modifier = Modifier.size(32.dp)
+            )
+        }
+    )
 }
