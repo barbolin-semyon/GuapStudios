@@ -7,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.guapstudios.data.RetrofitClient
 import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.data.emptities.Studio
-import com.example.guapstudios.data.modelForJSON.ListResponceModel
-import com.example.guapstudios.data.modelForJSON.ListStringReceiveModel
-import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
-import com.example.guapstudios.data.modelForJSON.ProjectUpdateReceiveModel
+import com.example.guapstudios.data.modelForJSON.*
 import com.example.guapstudios.data.retrofitService.ProjectRetrofitService
 import com.example.guapstudios.data.retrofitService.StudioRetrofitService
 import retrofit2.Call
@@ -18,10 +15,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-
 class ProjectViewModel : ViewModel() {
 
-    private val  _projects = MutableLiveData<List<Project>>()
+    private val _projects = MutableLiveData<List<Project>>()
     val projects: LiveData<List<Project>>
         get() = _projects
 
@@ -31,7 +27,8 @@ class ProjectViewModel : ViewModel() {
 
     private val currentStudio = MutableLiveData<Studio>()
 
-    val clientProject = RetrofitClient.getRetrofitService().create(ProjectRetrofitService::class.java)
+    val clientProject =
+        RetrofitClient.getRetrofitService().create(ProjectRetrofitService::class.java)
     val clientStudio = RetrofitClient.getRetrofitService().create(StudioRetrofitService::class.java)
 
     fun getStudioInformation(typeStudio: String) {
@@ -80,7 +77,7 @@ class ProjectViewModel : ViewModel() {
 
         clientProject.addProject(projectReceiveModel).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
-                _stateLoading.value = StateForRetrofit.Loaded
+                getProjectsInStudious(projectReceiveModel.studio)
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
@@ -101,6 +98,20 @@ class ProjectViewModel : ViewModel() {
             override fun onFailure(call: Call<String>, t: Throwable) {
                 _stateLoading.value = StateForRetrofit.Error(t.message)
             }
+        })
+    }
+
+    fun deleteProject(projectDeleteReceiveModel: ProjectDeleteReceiveModel) {
+
+        clientProject.deleteProject(projectDeleteReceiveModel).enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                _stateLoading.value = StateForRetrofit.Loaded
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                _stateLoading.value = StateForRetrofit.Error(t.message)
+            }
+
         })
     }
 }
