@@ -21,11 +21,18 @@ import com.example.guapstudios.viewModel.AuthorizationViewModel
 import com.example.guapstudios.viewModel.ProjectViewModel
 
 @Composable
-fun CurrentProjectView(navController: NavController, authorizationViewModel: AuthorizationViewModel) {
+fun CurrentProjectView(
+    navController: NavController,
+    authorizationViewModel: AuthorizationViewModel,
+) {
     val projectViewModel: ProjectViewModel = viewModel()
     projectViewModel.getProjectsInStudious(authorizationViewModel.user!!.typeStudio)
+    observeProjectViewModel(projectViewModel = projectViewModel)
+}
 
-    val projects = projectViewModel.projects.observeAsState()
+@Composable
+private fun observeProjectViewModel(projectViewModel: ProjectViewModel) {
+    val projects =  projectViewModel.projects.observeAsState()
 
     if (projects.value != null) {
         LazyColumn() {
@@ -37,3 +44,4 @@ fun CurrentProjectView(navController: NavController, authorizationViewModel: Aut
 
     }
 }
+
