@@ -108,7 +108,9 @@ private fun cardsProjects(projects: List<Project>, navController: NavController)
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .padding(vertical = 8.dp, horizontal = 16.dp),
+                onClick = {},
+                onSwipe = {},
             )
         }
     }

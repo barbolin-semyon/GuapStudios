@@ -1,36 +1,66 @@
 package com.example.guapstudios.ui.features.main.currentProject
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.example.guapstudios.R
+import com.example.guapstudios.ui.theme.Gray
 import com.example.guapstudios.ui.theme.Magenta
 import com.example.guapstudios.ui.theme.Magenta2
+import me.saket.swipe.SwipeAction
+import me.saket.swipe.SwipeableActionsBox
 
 @Composable
-fun CardScreen(name: String, fontSize: TextUnit, modifier: Modifier) {
-    Card(modifier = modifier, shape = RoundedCornerShape(16.dp)) {
-        Box {
-            BackgroundForCard(background = Color.White)
+fun CardScreen(
+    name: String,
+    fontSize: TextUnit,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    onSwipe: () -> Unit,
+) {
+    val swipeAction = SwipeAction(
+        onSwipe = {onSwipe()},
+        icon = painterResource(id = R.drawable.ic_delete),
+        background = Gray,
+    )
 
-            Column(
-                Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+    SwipeableActionsBox(
+        modifier = Modifier.background(Gray),
+        endActions = listOf(swipeAction)
+    ) {
+        Card(
+            modifier = modifier
+                .clickable { onClick() },
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Box {
+                BackgroundForCard(background = Color.White)
 
-                Text(
-                    text = name,
-                    color = Color.Black,
-                    fontSize = fontSize,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(8.dp)
-                )
+                Column(
+                    Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+
+                    Text(
+                        text = name,
+                        color = Color.Black,
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
             }
         }
     }
