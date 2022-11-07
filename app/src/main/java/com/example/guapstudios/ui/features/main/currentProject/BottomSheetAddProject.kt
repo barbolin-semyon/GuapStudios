@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.guapstudios.ui.theme.Magenta
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -30,12 +31,16 @@ fun BottomActionSheetWithContent(
         sheetElevation = 12.dp,
         sheetShape = RoundedCornerShape(topEnd = 32.dp),
         sheetState = state,
-        sheetContent = { SheetContentAddProject(action = action) }
+        sheetContent = { SheetContentAddProject(action = {name, description ->
+            scope.launch { state.hide() }
+            action(name, description)
+        }) }
 
     ) {
         content(state, scope)
     }
 }
+
 
 @Composable
 private fun SheetContentAddProject(action: (name: String, description: String) -> Unit) {
