@@ -69,8 +69,8 @@ private fun cardsProjects(projects: List<Project>, navController: NavController)
                 fontSize = 22.sp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
-                    .padding(8.dp)
+                    .height(150.dp)
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
             )
         }
     }
