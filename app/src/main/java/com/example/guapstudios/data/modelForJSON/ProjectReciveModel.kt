@@ -32,3 +32,9 @@ data class ProjectUpdateReceiveModel(
     val users: Array<String>? = null,
 )
 
+@Serializable
+data class ProjectDeleteReceiveModel(
+    val id: String,
+    val studioId: String
+)
+
