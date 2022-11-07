@@ -2,37 +2,42 @@ package com.example.guapstudios.ui.features.main.currentProject
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathFillType
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.example.guapstudios.ui.theme.Gray
-import kotlin.random.Random
+import com.example.guapstudios.ui.theme.Magenta
+import com.example.guapstudios.ui.theme.Magenta2
 
 @Composable
-fun CardScreen(name: String,colorOne: Color, fontSize: TextUnit, modifier: Modifier) {
-    Card(modifier = modifier) {
+fun CardScreen(name: String, fontSize: TextUnit, modifier: Modifier) {
+    Card(modifier = modifier, shape = RoundedCornerShape(16.dp)) {
         Box {
-            BackgroundForCard(colorOne = colorOne, colorTwo = Color.White)
+            BackgroundForCard(background = Color.White)
 
             Column(
                 Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
-                Text(text = name, color = Color.Black, fontSize = fontSize, modifier = Modifier.padding(8.dp))
+                Text(
+                    text = name,
+                    color = Color.Black,
+                    fontSize = fontSize,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp)
+                )
             }
         }
     }
 }
 
 @Composable
-private fun BackgroundForCard(colorOne: Color, colorTwo: Color) {
+private fun BackgroundForCard(background: Color) {
     Canvas(modifier = Modifier.fillMaxSize(), onDraw = {
 
         drawPath(
@@ -42,7 +47,7 @@ private fun BackgroundForCard(colorOne: Color, colorTwo: Color) {
                 lineTo(size.width, size.height)
                 lineTo(0f, size.height)
             },
-            color = colorOne
+            brush = Brush.verticalGradient(listOf(Magenta2, Magenta))
         )
 
         drawPath(
@@ -50,12 +55,17 @@ private fun BackgroundForCard(colorOne: Color, colorTwo: Color) {
                 fillType = PathFillType.EvenOdd
                 moveTo(0f, size.height)
 
-                val twoRand = Random.nextInt(4, 6)
-
-                cubicTo(size.width / 1.5f, size.height / 8, size.width / 2, size.height / 1.2f, size.width, 0f)
+                cubicTo(
+                    size.width / 5f,
+                    size.height / 8,
+                    size.width / 2,
+                    size.height / 1.2f,
+                    size.width,
+                    0f
+                )
                 lineTo(0f, 0f)
             },
-            color = colorTwo
+            color = background
         )
     })
 }

@@ -65,7 +65,6 @@ private fun cardsProjects(projects: List<Project>, navController: NavController)
         items(projects) {
             CardScreen(
                 name = it.title,
-                colorOne = colorsForCard.random(),
                 fontSize = 22.sp,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -87,7 +86,7 @@ private fun FUBToAdd(navController: NavController) {
     ) {
         FloatingActionButton(
             onClick = { },
-            backgroundColor = Magenta2,
+            backgroundColor = Yellow,
             content = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_add_24),
@@ -97,8 +96,3 @@ private fun FUBToAdd(navController: NavController) {
         )
     }
 }
-
-val colorsForCard = listOf(
-    Yellow, Red, Blue, Green
-)
-
