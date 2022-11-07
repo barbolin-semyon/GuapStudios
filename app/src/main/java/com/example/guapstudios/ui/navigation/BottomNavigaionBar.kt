@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.guapstudios.ui.theme.Gray
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -24,7 +25,7 @@ fun BottomNavigationBar(navController: NavController) {
         && route != AuthorizationScreens.RegisterScreen.route
         && route != Screens.Splash.route
     ) {
-        BottomNavigation {
+        BottomNavigation(backgroundColor = Gray) {
             listOfScreensForBottomNav.forEach { screen ->
                 BottomNavigationItem(
                     selected = route == screen.route,
@@ -44,11 +45,12 @@ fun BottomNavigationBar(navController: NavController) {
                     icon = {
                         Icon(
                             painter = painterResource(id = screen.icon),
+                            tint = Color.Gray,
                             contentDescription = screen.text,
                             modifier = Modifier.size(25.dp)
                         )
                     },
-                    label = { Text(text = screen.text) }
+                    label = { Text(text = screen.text, color = Color.Gray) }
                 )
             }
         }
