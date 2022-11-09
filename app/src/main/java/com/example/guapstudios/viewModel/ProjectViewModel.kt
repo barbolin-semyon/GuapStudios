@@ -75,12 +75,12 @@ class ProjectViewModel : ViewModel() {
     fun addProjectInStudious(projectReceiveModel: ProjectReceiveModel) {
         _stateLoading.value = StateForRetrofit.Loading
 
-        clientProject.addProject(projectReceiveModel).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        clientProject.addProject(projectReceiveModel).enqueue(object : Callback<StringResponceModel> {
+            override fun onResponse(call: Call<StringResponceModel>, response: Response<StringResponceModel>) {
                 getProjectsInStudious(projectReceiveModel.studio)
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<StringResponceModel>, t: Throwable) {
                 _stateLoading.value = StateForRetrofit.Error(t.message)
             }
 
@@ -90,12 +90,12 @@ class ProjectViewModel : ViewModel() {
     fun updateProjectInStudious(projectUpdateReceiveModel: ProjectUpdateReceiveModel) {
         _stateLoading.value = StateForRetrofit.Loading
 
-        clientProject.updateProject(projectUpdateReceiveModel).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+        clientProject.updateProject(projectUpdateReceiveModel).enqueue(object : Callback<StringResponceModel> {
+            override fun onResponse(call: Call<StringResponceModel>, response: Response<StringResponceModel>) {
                 _stateLoading.value = StateForRetrofit.Loaded
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<StringResponceModel>, t: Throwable) {
                 _stateLoading.value = StateForRetrofit.Error(t.message)
             }
         })
@@ -103,12 +103,12 @@ class ProjectViewModel : ViewModel() {
 
     fun deleteProject(projectDeleteReceiveModel: ProjectDeleteReceiveModel) {
 
-        clientProject.deleteProject(projectDeleteReceiveModel).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                _stateLoading.value = StateForRetrofit.Loaded
+        clientProject.deleteProject(projectDeleteReceiveModel).enqueue(object : Callback<StringResponceModel> {
+            override fun onResponse(call: Call<StringResponceModel>, response: Response<StringResponceModel>) {
+                getProjectsInStudious(projectDeleteReceiveModel.studioId)
             }
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
+            override fun onFailure(call: Call<StringResponceModel>, t: Throwable) {
                 _stateLoading.value = StateForRetrofit.Error(t.message)
             }
 
