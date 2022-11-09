@@ -116,11 +116,7 @@ private fun cardsProjects(
     viewModel: ProjectViewModel,
     user: User
 ) {
-    AlertDialogDelete(
-        projectViewModel = viewModel,
-        user = user,
-        //idProject = it.id
-    )
+
     LazyColumn() {
         items(projects) {
             CardScreen(
