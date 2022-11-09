@@ -29,38 +29,26 @@ fun CardScreen(
     fontSize: TextUnit,
     modifier: Modifier,
     onClick: () -> Unit,
-    onSwipe: () -> Unit,
 ) {
-    val swipeAction = SwipeAction(
-        onSwipe = {onSwipe()},
-        icon = painterResource(id = R.drawable.ic_delete),
-        background = Gray,
-    )
-
-    SwipeableActionsBox(
-        modifier = Modifier.background(Gray),
-        endActions = listOf(swipeAction)
+    Card(
+        modifier = modifier
+            .clickable { onClick() },
+        shape = RoundedCornerShape(16.dp)
     ) {
-        Card(
-            modifier = modifier
-                .clickable { onClick() },
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Box {
-                BackgroundForCard(background = Color.White)
+        Box {
+            BackgroundForCard(background = Color.White)
 
-                Column(
-                    Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
+            Column(
+                Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
 
-                    Text(
-                        text = name,
-                        color = Color.Black,
-                        fontSize = fontSize,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(8.dp)
-                    )
-                }
+                Text(
+                    text = name,
+                    color = Color.Black,
+                    fontSize = fontSize,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(8.dp)
+                )
             }
         }
     }
