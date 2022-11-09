@@ -1,16 +1,19 @@
 package com.example.guapstudios.ui.features.main.currentProject
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,9 +24,10 @@ import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 import com.example.guapstudios.viewModel.ProjectViewModel
 import com.example.guapstudios.R
+import com.example.guapstudios.data.emptities.User
+import com.example.guapstudios.data.modelForJSON.ProjectDeleteReceiveModel
 import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
 import com.example.guapstudios.ui.theme.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -52,10 +56,11 @@ private fun observeProjectViewModel(
     val projects = projectViewModel.projects.observeAsState()
 
     if (projects.value != null) {
+
+        val user = authorizationViewModel.user!!
+
         BottomActionSheetWithContent(
             action = { name, description ->
-
-                val user = authorizationViewModel.user!!
 
                 projectViewModel.addProjectInStudious(
                     projectReceiveModel = ProjectReceiveModel(
@@ -89,7 +94,12 @@ private fun observeProjectViewModel(
                     }
                 }
 
-                cardsProjects(projects = projects.value!!, navController = navController)
+                cardsProjects(
+                    projects = projects.value!!,
+                    navController = navController,
+                    viewModel = projectViewModel,
+                    user = user
+                )
             }
         }
 
@@ -98,8 +108,19 @@ private fun observeProjectViewModel(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun cardsProjects(projects: List<Project>, navController: NavController) {
+private fun cardsProjects(
+    projects: List<Project>,
+    navController: NavController,
+    viewModel: ProjectViewModel,
+    user: User
+) {
+    AlertDialogDelete(
+        projectViewModel = viewModel,
+        user = user,
+        //idProject = it.id
+    )
     LazyColumn() {
         items(projects) {
             CardScreen(
@@ -109,11 +130,36 @@ private fun cardsProjects(projects: List<Project>, navController: NavController)
                     .fillMaxWidth()
                     .height(150.dp)
                     .padding(vertical = 8.dp, horizontal = 16.dp),
-                onClick = {},
-                onSwipe = {},
+                onClick = {
+
+                },
+
             )
+
         }
     }
+}
+
+@Composable
+fun AlertDialogDelete(projectViewModel: ProjectViewModel, user: User, idProject: String = "") {
+    AlertDialog(
+        onDismissRequest = { },
+        title = { Text(text = "Удаление проекта") },
+        text = { Text(text = "Вы уверены, что хотите удалить проект?") },
+        confirmButton = {
+            Button(onClick = {
+                projectViewModel.deleteProject(
+                    projectDeleteReceiveModel = ProjectDeleteReceiveModel(
+                        id = idProject,
+                        studioId = user.typeStudio
+                    )
+                )
+            }) {
+                Text("да")
+            }
+        }
+    )
+
 }
 
 @Composable
