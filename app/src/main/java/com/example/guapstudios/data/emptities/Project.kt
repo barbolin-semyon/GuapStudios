@@ -3,7 +3,6 @@ package com.example.guapstudios.data.emptities
 @kotlinx.serialization.Serializable
 class Project(
     val adminId: String,
-    val studio: String,
     val id: String,
     val title: String,
     val description: String,
