@@ -57,10 +57,11 @@ private fun observeProjectViewModel(
 
     if (projects.value != null) {
 
-        val user = authorizationViewModel.user!!
+
 
         BottomActionSheetWithContent(
             action = { name, description ->
+                val user = authorizationViewModel.user!!
 
                 projectViewModel.addProjectInStudious(
                     projectReceiveModel = ProjectReceiveModel(
@@ -98,7 +99,6 @@ private fun observeProjectViewModel(
                     projects = projects.value!!,
                     navController = navController,
                     viewModel = projectViewModel,
-                    user = user
                 )
             }
         }
@@ -114,9 +114,7 @@ private fun cardsProjects(
     projects: List<Project>,
     navController: NavController,
     viewModel: ProjectViewModel,
-    user: User
 ) {
-
     LazyColumn() {
         items(projects) {
             CardScreen(
@@ -126,18 +124,14 @@ private fun cardsProjects(
                     .fillMaxWidth()
                     .height(150.dp)
                     .padding(vertical = 8.dp, horizontal = 16.dp),
-                onClick = {
-
-                },
-
+                onClick = {},
             )
-
         }
     }
 }
 
 @Composable
-fun AlertDialogDelete(projectViewModel: ProjectViewModel, user: User, idProject: String = "") {
+fun AlertDialogDelete(projectViewModel: ProjectViewModel, project: Project) {
     AlertDialog(
         onDismissRequest = { },
         title = { Text(text = "Удаление проекта") },
@@ -146,8 +140,8 @@ fun AlertDialogDelete(projectViewModel: ProjectViewModel, user: User, idProject:
             Button(onClick = {
                 projectViewModel.deleteProject(
                     projectDeleteReceiveModel = ProjectDeleteReceiveModel(
-                        id = idProject,
-                        studioId = user.typeStudio
+                        id = project.id,
+                        studioId = project.studio
                     )
                 )
             }) {
