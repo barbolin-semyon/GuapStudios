@@ -13,11 +13,11 @@ interface ProjectRetrofitService {
     fun getProjects(@Body projects: ListStringReceiveModel): Call<ListResponceModel<Project>>
 
     @POST("/project/add")
-    fun addProject(@Body project: ProjectReceiveModel): Call<String>
+    fun addProject(@Body project: ProjectReceiveModel): Call<StringResponceModel>
 
     @POST("/project/update")
-    fun updateProject(@Body projectUpdateReceiveModel: ProjectUpdateReceiveModel): Call<String>
+    fun updateProject(@Body projectUpdateReceiveModel: ProjectUpdateReceiveModel): Call<StringResponceModel>
 
-    @GET("/project/delete")
-    fun deleteProject(@Body project: ProjectDeleteReceiveModel): Call<String>
+    @POST("/project/delete")
+    fun deleteProject(@Body project: ProjectDeleteReceiveModel): Call<StringResponceModel>
 }
