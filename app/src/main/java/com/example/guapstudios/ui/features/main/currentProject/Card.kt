@@ -38,8 +38,8 @@ fun CardScreen(
         Box {
             BackgroundForCard(background = Color.White)
 
-            Column(
-                Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)
+            Row(
+                Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
                 Text(
