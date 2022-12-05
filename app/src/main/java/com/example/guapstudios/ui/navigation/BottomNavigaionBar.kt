@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.guapstudios.ui.theme.Gray
+import com.example.guapstudios.ui.theme.Magenta
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -27,8 +28,11 @@ fun BottomNavigationBar(navController: NavController) {
     ) {
         BottomNavigation(backgroundColor = Gray) {
             listOfScreensForBottomNav.forEach { screen ->
+
+                val iseSelected = route == screen.route
+
                 BottomNavigationItem(
-                    selected = route == screen.route,
+                    selected = iseSelected,
                     onClick = {
                         navController.navigate(screen.route) {
 
@@ -45,12 +49,16 @@ fun BottomNavigationBar(navController: NavController) {
                     icon = {
                         Icon(
                             painter = painterResource(id = screen.icon),
-                            tint = Color.Gray,
+                            tint = if (iseSelected) Magenta else Color.Gray,
                             contentDescription = screen.text,
-                            modifier = Modifier.size(25.dp)
+                            modifier = Modifier.size(
+                                if (iseSelected) 30.dp else 25.dp
+                            )
                         )
                     },
-                    label = { Text(text = screen.text, color = Color.Gray) }
+                    label = {
+                        Text(text = screen.text, color = Color.Gray)
+                    }
                 )
             }
         }
