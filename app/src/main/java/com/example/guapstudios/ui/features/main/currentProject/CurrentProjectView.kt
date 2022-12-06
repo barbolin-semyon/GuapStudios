@@ -27,6 +27,7 @@ import com.example.guapstudios.R
 import com.example.guapstudios.data.emptities.User
 import com.example.guapstudios.data.modelForJSON.ProjectDeleteReceiveModel
 import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
+import com.example.guapstudios.ui.navigation.ProjectScreens
 import com.example.guapstudios.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -56,8 +57,6 @@ private fun observeProjectViewModel(
     val projects = projectViewModel.projects.observeAsState()
 
     if (projects.value != null) {
-
-
 
         BottomActionSheetWithContent(
             action = { name, description ->
@@ -124,7 +123,13 @@ private fun cardsProjects(
                     .fillMaxWidth()
                     .height(150.dp)
                     .padding(vertical = 8.dp, horizontal = 16.dp),
-                onClick = {},
+                onClick = {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        "project",
+                        it
+                    )
+                    navController.navigate(ProjectScreens.DetailProject.route)
+                },
             )
         }
     }
