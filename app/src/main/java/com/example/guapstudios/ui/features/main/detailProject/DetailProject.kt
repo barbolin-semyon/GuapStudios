@@ -10,10 +10,15 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.guapstudios.data.emptities.Project
+import com.example.guapstudios.ui.theme.Blue
 import com.example.guapstudios.ui.theme.Magenta
+import com.example.guapstudios.ui.theme.Magenta2
 
 @Composable
 fun DetailProject(navController: NavController, project: Project) {
@@ -21,17 +26,33 @@ fun DetailProject(navController: NavController, project: Project) {
         Modifier
             .background(Magenta)
             .fillMaxSize()
-            .padding(16.dp)) {
-        Text(text = project.title)
+            .padding(top = 16.dp)
+    ) {
+        Text(
+            text = project.title,
+            fontSize = 48.sp,
+            color = Color.White,
+            modifier = Modifier.padding(start = 16.dp),
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = project.description,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(
+                top = 32.dp,
+                start = 16.dp,
+                end = 16.dp,
+            ),
+            color = Color.White
+        )
 
         Card(
             modifier = Modifier
                 .padding(top = 16.dp)
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(topStart = 8.dp, topEnd = 32.dp)
+                .fillMaxSize(),
+            shape = RoundedCornerShape(topStart = 0.dp, topEnd = 64.dp)
         ) {
             Column {
-                Text(text = project.description)
             }
         }
     }
