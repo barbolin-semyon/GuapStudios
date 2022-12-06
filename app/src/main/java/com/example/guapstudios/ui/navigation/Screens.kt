@@ -26,7 +26,7 @@ sealed class MainScreens(val route: String, val text: String, @DrawableRes val i
 }
 
 sealed class ProjectScreens(val route: String) {
-    object ListProject : ProjectScreens("project")
+    object ListProject : ProjectScreens("listProject")
     object DetailProject : ProjectScreens("detailProject")
     object TaskProject : ProjectScreens("taskProject")
 }
