@@ -7,9 +7,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.ui.features.authorization.LoginView
 import com.example.guapstudios.ui.features.authorization.RegisterView
 import com.example.guapstudios.ui.features.main.currentProject.CurrentProjectView
+import com.example.guapstudios.ui.features.main.detailProject.DetailProject
 import com.example.guapstudios.ui.features.splash.SplashView
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
@@ -48,15 +50,34 @@ private fun NavGraphBuilder.main(
     authorizationViewModel: AuthorizationViewModel
 ) {
     navigation(
-        startDestination = MainScreens.CurrentProjectScreen.route,
+        startDestination = MainScreens.ProjectScreen.route,
         route = Screens.MainScreen.route
     ) {
         composable(MainScreens.ProfileScreen.route) {
 
         }
-        composable(MainScreens.CurrentProjectScreen.route) {
+        project(navController, authorizationViewModel)
+        composable(MainScreens.TechTaskScreen.route) { }
+    }
+}
+
+private fun NavGraphBuilder.project(
+    navController: NavController,
+    authorizationViewModel: AuthorizationViewModel
+) {
+    navigation(
+        startDestination = ProjectScreens.ListProject.route,
+        route = MainScreens.ProjectScreen.route
+    ) {
+        composable(ProjectScreens.ListProject.route) {
             CurrentProjectView(navController, authorizationViewModel = authorizationViewModel)
         }
-        composable(MainScreens.TechTaskScreen.route) { }
+
+        composable(ProjectScreens.DetailProject.route) {
+            val currentProject = navController.previousBackStackEntry?.savedStateHandle?.get<Project>("project")
+            currentProject?.let { project ->
+                DetailProject(navController = navController, project = project)
+            }
+        }
     }
 }
