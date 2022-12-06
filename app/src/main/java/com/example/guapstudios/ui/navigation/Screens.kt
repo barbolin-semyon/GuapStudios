@@ -21,12 +21,18 @@ sealed class MainScreens(val route: String, val text: String, @DrawableRes val i
         "techTask", "ТЗ", R.drawable.ic_tech_task
     )
 
-    object CurrentProjectScreen :
-        MainScreens("currentProject", "Проекты", R.drawable.ic_projects)
+    object ProjectScreen :
+        MainScreens("project", "Проекты", R.drawable.ic_projects)
+}
+
+sealed class ProjectScreens(val route: String) {
+    object ListProject : ProjectScreens("project")
+    object DetailProject : ProjectScreens("detailProject")
+    object TaskProject : ProjectScreens("taskProject")
 }
 
 val listOfScreensForBottomNav = listOf(
-    MainScreens.CurrentProjectScreen,
+    MainScreens.ProjectScreen,
     MainScreens.TechTaskScreen,
     MainScreens.ProfileScreen
 )
