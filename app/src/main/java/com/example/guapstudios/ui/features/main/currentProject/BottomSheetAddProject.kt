@@ -21,6 +21,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomActionSheetWithContent(
     action: (name: String, description: String) -> Unit,
+    title: String?,
+    description: String?,
     content: @Composable (state: ModalBottomSheetState, scope: CoroutineScope) -> Unit
 ) {
     val state = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -31,10 +33,15 @@ fun BottomActionSheetWithContent(
         sheetElevation = 12.dp,
         sheetShape = RoundedCornerShape(topEnd = 32.dp),
         sheetState = state,
-        sheetContent = { SheetContentAddProject(action = {name, description ->
-            scope.launch { state.hide() }
-            action(name, description)
-        }) }
+        sheetContent = {
+            SheetContentAddProject(
+                title = title,
+                description = description,
+                action = { name, description ->
+                    scope.launch { state.hide() }
+                    action(name, description)
+                })
+        }
 
     ) {
         content(state, scope)
@@ -43,7 +50,11 @@ fun BottomActionSheetWithContent(
 
 
 @Composable
-private fun SheetContentAddProject(action: (name: String, description: String) -> Unit) {
+private fun SheetContentAddProject(
+    title: String?,
+    description: String?,
+    action: (name: String, description: String) -> Unit
+) {
 
     Text(
         text = "Создание проекта",
@@ -53,9 +64,8 @@ private fun SheetContentAddProject(action: (name: String, description: String) -
         color = Magenta
     )
 
-    val name = remember { mutableStateOf("") }
-    val description = remember { mutableStateOf("") }
-
+    val name = remember { mutableStateOf(title ?: "") }
+    val description = remember { mutableStateOf(description ?: "") }
 
     OutlinedTextField(
         value = name.value,
@@ -83,5 +93,6 @@ private fun SheetContentAddProject(action: (name: String, description: String) -
     ) {
         Text(text = "Создать проект")
     }
+
 }
 

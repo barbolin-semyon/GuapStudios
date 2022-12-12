@@ -21,6 +21,8 @@ class ProjectViewModel : ViewModel() {
     val projects: LiveData<List<Project>>
         get() = _projects
 
+    val currentProject = MutableLiveData<Project?>()
+
     private val _stateLoading = MutableLiveData<StateForRetrofit>(StateForRetrofit.Empty)
     val stateLoading: LiveData<StateForRetrofit>
         get() = _stateLoading

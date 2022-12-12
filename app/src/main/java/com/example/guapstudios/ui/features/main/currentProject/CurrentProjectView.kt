@@ -24,6 +24,7 @@ import com.example.guapstudios.R
 import com.example.guapstudios.data.emptities.User
 import com.example.guapstudios.data.modelForJSON.ProjectDeleteReceiveModel
 import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
+import com.example.guapstudios.data.modelForJSON.ProjectUpdateReceiveModel
 import com.example.guapstudios.ui.navigation.ProjectScreens
 import com.example.guapstudios.ui.theme.*
 import kotlinx.coroutines.CoroutineScope
@@ -73,23 +74,44 @@ private fun ConfigBottomSheet(
     BottomActionSheetWithContent(
         action = { name, description ->
 
-            projectViewModel.addProjectInStudious(
-                projectReceiveModel = ProjectReceiveModel(
-                    studio = user.typeStudio,
-                    adminId = user.login,
-                    title = name,
-                    description = description
+            val currentProject = projectViewModel.currentProject.value
+
+            if (currentProject?.id == "") {
+                projectViewModel.addProjectInStudious(
+                    projectReceiveModel = ProjectReceiveModel(
+                        studio = user.typeStudio,
+                        adminId = user.login,
+                        title = name,
+                        description = description
+                    )
                 )
-            )
-        }
+            } else if (currentProject != null) {
+                projectViewModel.updateProjectInStudious(
+                    ProjectUpdateReceiveModel(
+                        id = currentProject.id,
+                        adminId = currentProject.id,
+                        title = name,
+                        tasks = currentProject.tasks,
+                        description = description,
+                        events = currentProject.events
+                    )
+                )
+            }
+
+            projectViewModel.currentProject.value = null
+        },
+        title = "",
+        description = ""
+
     ) { state, scope ->
+
+        ObserveCurrentProject(state = state, scope = scope, projectViewModel = projectViewModel)
+
         MainContent(
             user = user,
             navController = navController,
             projectViewModel = projectViewModel,
             projects = projects,
-            state = state,
-            scope = scope
         )
     }
 
@@ -102,11 +124,8 @@ private fun MainContent(
     navController: NavController,
     projectViewModel: ProjectViewModel,
     projects: List<Project>?,
-    state: ModalBottomSheetState,
-    scope: CoroutineScope
 ) {
     Column {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -120,28 +139,35 @@ private fun MainContent(
             )
 
             ButtonToAdd {
-                scope.launch {
-                    state.show()
-                }
+                projectViewModel.currentProject.value = Project()
             }
         }
 
         if (projects != null) {
 
             cardsProjects(
-                showBottom = {
-                    scope.launch {
-                        state.show()
-                    }
-                },
                 projects = projects,
                 navController = navController,
                 viewModel = projectViewModel,
             )
-        }
-
-        else {
+        } else {
             Text("Нет проектов")
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun ObserveCurrentProject(
+    scope: CoroutineScope,
+    state: ModalBottomSheetState,
+    projectViewModel: ProjectViewModel
+) {
+    val project = projectViewModel.currentProject.observeAsState()
+
+    project.value?.let {
+        scope.launch {
+            state.show()
         }
     }
 }
@@ -152,16 +178,16 @@ private fun cardsProjects(
     projects: List<Project>,
     navController: NavController,
     viewModel: ProjectViewModel,
-    showBottom: () -> Job,
 ) {
 
-    val isShowDialogAllert = remember { mutableStateOf(false)}
+    val isShowDialogAllert = remember { mutableStateOf<Project?>(null) }
+
+    isShowDialogAllert.value?.let {
+        AlertDialogDelete(projectViewModel = viewModel, project = it)
+    }
 
     LazyColumn() {
         items(projects) {
-            if (isShowDialogAllert.value) {
-                AlertDialogDelete(projectViewModel = viewModel, project = it)
-            }
 
             CardScreen(
                 name = it.title,
@@ -179,7 +205,7 @@ private fun cardsProjects(
                             navController.navigate(ProjectScreens.DetailProject.route)
                         },
                         onLongClick = {
-
+                            isShowDialogAllert.value = it
                         }
                     )
             )
@@ -189,24 +215,35 @@ private fun cardsProjects(
 
 @Composable
 fun AlertDialogDelete(projectViewModel: ProjectViewModel, project: Project) {
-    AlertDialog(
-        onDismissRequest = { },
-        title = { Text(text = "Удаление проекта") },
-        text = { Text(text = "Вы уверены, что хотите удалить проект?") },
-        confirmButton = {
-            Button(onClick = {
-                projectViewModel.deleteProject(
-                    projectDeleteReceiveModel = ProjectDeleteReceiveModel(
-                        id = project.id,
-                        studioId = project.studio
-                    )
-                )
-            }) {
-                Text("да")
-            }
-        }
-    )
+    val openDialog = remember { mutableStateOf(true) }
 
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = { openDialog.value = false },
+            title = { Text(text = "Действия с проектом") },
+            text = { Text(text = "Какие действия вы хотите совершить над проектом?") },
+            buttons = {
+                Button(onClick = {
+                    projectViewModel.deleteProject(
+                        projectDeleteReceiveModel = ProjectDeleteReceiveModel(
+                            id = project.id,
+                            studioId = project.studio
+                        )
+                    )
+                    openDialog.value = false
+                }) {
+                    Text("Удалить")
+                }
+
+                Button(onClick = {
+                    projectViewModel.currentProject.value = project
+                    openDialog.value = false
+                }) {
+                    Text("Редактировать")
+                }
+            }
+        )
+    }
 }
 
 @Composable
