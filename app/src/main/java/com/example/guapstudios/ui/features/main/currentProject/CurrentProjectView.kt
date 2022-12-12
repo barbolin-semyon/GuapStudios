@@ -94,7 +94,8 @@ private fun ConfigBottomSheet(
                         tasks = currentProject.tasks,
                         description = description,
                         events = currentProject.events
-                    )
+                    ),
+                    studio = currentProject.studio
                 )
             }
 

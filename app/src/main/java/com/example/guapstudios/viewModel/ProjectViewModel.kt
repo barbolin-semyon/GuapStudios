@@ -89,7 +89,8 @@ class ProjectViewModel : ViewModel() {
         })
     }
 
-    fun updateProjectInStudious(projectUpdateReceiveModel: ProjectUpdateReceiveModel) {
+    fun updateProjectInStudious(projectUpdateReceiveModel: ProjectUpdateReceiveModel, studio: String) {
+        getProjectsInStudious(studio)
         _stateLoading.value = StateForRetrofit.Loading
 
         clientProject.updateProject(projectUpdateReceiveModel).enqueue(object : Callback<StringResponceModel> {
@@ -104,6 +105,7 @@ class ProjectViewModel : ViewModel() {
     }
 
     fun deleteProject(projectDeleteReceiveModel: ProjectDeleteReceiveModel) {
+        getProjectsInStudious(projectDeleteReceiveModel.studioId)
 
         clientProject.deleteProject(projectDeleteReceiveModel).enqueue(object : Callback<StringResponceModel> {
             override fun onResponse(call: Call<StringResponceModel>, response: Response<StringResponceModel>) {
