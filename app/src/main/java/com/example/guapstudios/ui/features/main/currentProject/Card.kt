@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.example.guapstudios.R
@@ -28,26 +29,22 @@ fun CardScreen(
     name: String,
     fontSize: TextUnit,
     modifier: Modifier,
-    onClick: () -> Unit,
 ) {
     Card(
-        modifier = modifier
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp), modifier = modifier,
     ) {
         Box {
             BackgroundForCard(background = Color.White)
 
             Row(
-                Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
                 Text(
                     text = name,
                     color = Color.Black,
                     fontSize = fontSize,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(16.dp)
                 )
             }
         }

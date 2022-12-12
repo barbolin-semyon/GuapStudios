@@ -1,18 +1,15 @@
 package com.example.guapstudios.ui.features.main.currentProject
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +26,8 @@ import com.example.guapstudios.data.modelForJSON.ProjectDeleteReceiveModel
 import com.example.guapstudios.data.modelForJSON.ProjectReceiveModel
 import com.example.guapstudios.ui.navigation.ProjectScreens
 import com.example.guapstudios.ui.theme.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,69 +40,109 @@ fun CurrentProjectView(
 
     projectViewModel.getProjectsInStudious(authorizationViewModel.user!!.typeStudio)
     observeProjectViewModel(
-        authorizationViewModel = authorizationViewModel,
+        user = authorizationViewModel.user!!,
         projectViewModel = projectViewModel,
+        navController = navController
+    )
+}
+
+@Composable
+private fun observeProjectViewModel(
+    user: User,
+    projectViewModel: ProjectViewModel,
+    navController: NavController
+) {
+    val projects = projectViewModel.projects.observeAsState()
+    ConfigBottomSheet(
+        projects = projects.value,
+        projectViewModel = projectViewModel,
+        user = user,
         navController = navController
     )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun observeProjectViewModel(
-    authorizationViewModel: AuthorizationViewModel,
+private fun ConfigBottomSheet(
+    user: User,
+    navController: NavController,
     projectViewModel: ProjectViewModel,
-    navController: NavController
+    projects: List<Project>?
 ) {
-    val projects = projectViewModel.projects.observeAsState()
 
-    if (projects.value != null) {
+    BottomActionSheetWithContent(
+        action = { name, description ->
 
-        BottomActionSheetWithContent(
-            action = { name, description ->
-                val user = authorizationViewModel.user!!
-
-                projectViewModel.addProjectInStudious(
-                    projectReceiveModel = ProjectReceiveModel(
-                        studio = user.typeStudio,
-                        adminId = user.login,
-                        title = name,
-                        description = description
-                    )
+            projectViewModel.addProjectInStudious(
+                projectReceiveModel = ProjectReceiveModel(
+                    studio = user.typeStudio,
+                    adminId = user.login,
+                    title = name,
+                    description = description
                 )
-            }
-        ) { state, scope ->
+            )
+        }
+    ) { state, scope ->
+        MainContent(
+            user = user,
+            navController = navController,
+            projectViewModel = projectViewModel,
+            projects = projects,
+            state = state,
+            scope = scope
+        )
+    }
 
-            Column {
+}
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 32.dp, horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "Проекты",
-                        fontSize = 32.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun MainContent(
+    user: User,
+    navController: NavController,
+    projectViewModel: ProjectViewModel,
+    projects: List<Project>?,
+    state: ModalBottomSheetState,
+    scope: CoroutineScope
+) {
+    Column {
 
-                    ButtonToAdd {
-                        scope.launch {
-                            state.show()
-                        }
-                    }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 32.dp, horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Проекты",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            ButtonToAdd {
+                scope.launch {
+                    state.show()
                 }
-
-                cardsProjects(
-                    projects = projects.value!!,
-                    navController = navController,
-                    viewModel = projectViewModel,
-                )
             }
         }
 
-    } else {
+        if (projects != null) {
 
+            cardsProjects(
+                showBottom = {
+                    scope.launch {
+                        state.show()
+                    }
+                },
+                projects = projects,
+                navController = navController,
+                viewModel = projectViewModel,
+            )
+        }
+
+        else {
+            Text("Нет проектов")
+        }
     }
 }
 
@@ -113,23 +152,36 @@ private fun cardsProjects(
     projects: List<Project>,
     navController: NavController,
     viewModel: ProjectViewModel,
+    showBottom: () -> Job,
 ) {
+
+    val isShowDialogAllert = remember { mutableStateOf(false)}
+
     LazyColumn() {
         items(projects) {
+            if (isShowDialogAllert.value) {
+                AlertDialogDelete(projectViewModel = viewModel, project = it)
+            }
+
             CardScreen(
                 name = it.title,
                 fontSize = 22.sp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
-                    .padding(vertical = 8.dp, horizontal = 16.dp),
-                onClick = {
-                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                        "project",
-                        it
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .height(130.dp)
+                    .combinedClickable(
+                        onClick = {
+                            navController.currentBackStackEntry?.savedStateHandle?.set(
+                                "project",
+                                it
+                            )
+                            navController.navigate(ProjectScreens.DetailProject.route)
+                        },
+                        onLongClick = {
+
+                        }
                     )
-                    navController.navigate(ProjectScreens.DetailProject.route)
-                },
             )
         }
     }
