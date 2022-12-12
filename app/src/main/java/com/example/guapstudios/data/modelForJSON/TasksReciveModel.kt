@@ -22,3 +22,9 @@ data class DeleteTaskReceiveModel(
     val projectId: String,
     val taskId: String,
 )
+
+@kotlinx.serialization.Serializable
+data class UpdateTaskReceiveModel(
+    val id: String?,
+    val isCheck: Boolean?
+)
