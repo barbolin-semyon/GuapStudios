@@ -3,11 +3,9 @@ package com.example.guapstudios.data.retrofitService
 import com.example.guapstudios.data.modelForJSON.*
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Query
 
-interface TechTaskRetrofitSerivce {
+interface TaskRetrofitSerivce {
 
     @POST("project/tasks")
     fun getTasks(@Body tasks: ListStringReceiveModel)
