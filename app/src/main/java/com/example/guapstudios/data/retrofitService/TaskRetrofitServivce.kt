@@ -5,10 +5,10 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface TaskRetrofitSerivce {
+interface TaskRetrofitServivce {
 
     @POST("project/tasks")
-    fun getTasks(@Body tasks: ListStringReceiveModel)
+    fun getTasks(@Body tasks: ListStringReceiveModel): Call<ListResponceModel<TaskDTO>>
 
     @POST("/project/tasks/add")
     fun addTask(@Body task: CreateTaskReceiveModel): Call<StringResponceModel>
