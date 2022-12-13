@@ -18,9 +18,9 @@ class TaskInProjectViewmodel : ViewModel() {
     val clientTask =
         RetrofitClient.getRetrofitService().create(TaskRetrofitServivce::class.java)
 
-    fun getTasks(index: List<String>) {
+    fun getTasks(index: Array<String>) {
 
-        clientTask.getTasks(ListStringReceiveModel(index.toTypedArray()))
+        clientTask.getTasks(ListStringReceiveModel(index))
             .enqueue(object : Callback<ListResponceModel<TaskDTO>> {
                 override fun onResponse(
                     call: Call<ListResponceModel<TaskDTO>>,
@@ -66,7 +66,7 @@ class TaskInProjectViewmodel : ViewModel() {
                 call: Call<StringResponceModel>,
                 response: Response<StringResponceModel>
             ) {
-                tasks.value?.map { it.id }?.let { getTasks(it) }
+                tasks.value?.map { it.id }?.let { getTasks(it.toTypedArray()) }
             }
 
             override fun onFailure(call: Call<StringResponceModel>, t: Throwable) {
