@@ -12,6 +12,7 @@ import com.example.guapstudios.ui.features.authorization.LoginView
 import com.example.guapstudios.ui.features.authorization.RegisterView
 import com.example.guapstudios.ui.features.main.currentProject.CurrentProjectView
 import com.example.guapstudios.ui.features.main.detailProject.DetailProject
+import com.example.guapstudios.ui.features.main.detailProject.InputTask
 import com.example.guapstudios.ui.features.splash.SplashView
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
@@ -71,6 +72,13 @@ private fun NavGraphBuilder.project(
     ) {
         composable(ProjectScreens.ListProject.route) {
             CurrentProjectView(navController, authorizationViewModel = authorizationViewModel)
+        }
+
+        composable(ProjectScreens.TaskInputProject.route) {
+            val currentProject = navController.previousBackStackEntry?.savedStateHandle?.get<String>("projectId")
+            currentProject?.let { project ->
+                InputTask(projectId = project, navController = navController)
+            }
         }
 
         composable(ProjectScreens.DetailProject.route) {

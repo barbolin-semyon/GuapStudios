@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.guapstudios.data.emptities.Project
+import com.example.guapstudios.ui.navigation.ProjectScreens
 import com.example.guapstudios.ui.theme.Blue
 import com.example.guapstudios.ui.theme.Gray
 import com.example.guapstudios.ui.theme.Magenta
@@ -52,7 +53,14 @@ fun DetailProject(navController: NavController, project: Project) {
         )
 
         Button(
-            onClick = { },
+            onClick = {
+                navController.currentBackStackEntry?.savedStateHandle?.set(
+                    "projectId",
+                    project.id
+                )
+
+                navController.navigate(ProjectScreens.TaskInputProject.route)
+            },
             modifier = Modifier.padding(start = 8.dp),
         ) {
             Text(text = "Создать задачу", color = Color.White)
