@@ -25,6 +25,7 @@ import com.example.guapstudios.data.modelForJSON.TaskDTO
 import com.example.guapstudios.ui.theme.Gray
 import com.example.guapstudios.ui.theme.Green
 import com.example.guapstudios.ui.theme.Red
+import com.example.guapstudios.ui.theme.Yellow
 import com.example.guapstudios.viewModel.TaskInProjectViewmodel
 
 @Composable
@@ -67,8 +68,8 @@ fun CardTask(taskDTO: TaskDTO) {
                 modifier = Modifier.padding(start = 8.dp, top = 8.dp)
             )
             Text(
-                text = "Исполнитель: ${taskDTO.user}",
-                modifier = Modifier.padding(start = 8.dp, bottom = 16.dp),
+                text = "Тип: ${taskDTO.mark}",
+                modifier = Modifier.padding(start = 8.dp, bottom = 16.dp, top = 8.dp).background(Yellow),
             )
             Spacer(
                 modifier = Modifier
