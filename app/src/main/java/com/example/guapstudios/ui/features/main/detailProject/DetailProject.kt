@@ -6,7 +6,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,7 +24,7 @@ import com.example.guapstudios.ui.theme.Magenta2
 fun DetailProject(navController: NavController, project: Project) {
     Column(
         Modifier
-            .background(Magenta)
+            .background(Brush.linearGradient(listOf(Magenta, Magenta2)))
             .fillMaxSize()
             .padding(top = 16.dp)
     ) {
@@ -58,9 +60,9 @@ fun DetailProject(navController: NavController, project: Project) {
                     "projectId",
                     project.id
                 )
-
                 navController.navigate(ProjectScreens.TaskInputProject.route)
             },
+            colors = ButtonDefaults.buttonColors(backgroundColor = Magenta2),
             modifier = Modifier.padding(start = 8.dp),
         ) {
             Text(text = "Создать задачу", color = Color.White)
