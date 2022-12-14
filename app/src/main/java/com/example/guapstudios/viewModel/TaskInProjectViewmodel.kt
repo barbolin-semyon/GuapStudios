@@ -1,5 +1,6 @@
 package com.example.guapstudios.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,10 @@ class TaskInProjectViewmodel : ViewModel() {
     private val _tasks = MutableLiveData<List<TaskDTO>>()
     val tasks: LiveData<List<TaskDTO>>
         get() = _tasks
+
+    private val _loadedAdd = MutableLiveData(false)
+    val loadedAdd: LiveData<Boolean>
+        get() = _loadedAdd
 
     val clientTask =
         RetrofitClient.getRetrofitService().create(TaskRetrofitServivce::class.java)
@@ -48,11 +53,13 @@ class TaskInProjectViewmodel : ViewModel() {
                 call: Call<StringResponceModel>,
                 response: Response<StringResponceModel>
             ) {
+                _loadedAdd.value = true
+                Log.i("QWE", "loaded task")
 
             }
 
             override fun onFailure(call: Call<StringResponceModel>, t: Throwable) {
-
+                Log.i("QWE", "loaded task")
             }
 
         })
