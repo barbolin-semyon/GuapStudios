@@ -1,4 +1,4 @@
-package com.example.guapstudios.ui.features.main.currentProject
+package com.example.guapstudios.ui.features.project.currentProject
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
@@ -28,7 +28,6 @@ import com.example.guapstudios.data.modelForJSON.ProjectUpdateReceiveModel
 import com.example.guapstudios.ui.navigation.ProjectScreens
 import com.example.guapstudios.ui.theme.*
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @Composable

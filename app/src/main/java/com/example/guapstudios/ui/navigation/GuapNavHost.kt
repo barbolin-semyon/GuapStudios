@@ -11,9 +11,9 @@ import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.ui.features.Profile
 import com.example.guapstudios.ui.features.authorization.LoginView
 import com.example.guapstudios.ui.features.authorization.RegisterView
-import com.example.guapstudios.ui.features.main.currentProject.CurrentProjectView
-import com.example.guapstudios.ui.features.main.detailProject.DetailProject
-import com.example.guapstudios.ui.features.main.detailProject.InputTask
+import com.example.guapstudios.ui.features.project.currentProject.CurrentProjectView
+import com.example.guapstudios.ui.features.project.detailProject.DetailProject
+import com.example.guapstudios.ui.features.project.detailProject.InputTask
 import com.example.guapstudios.ui.features.splash.SplashView
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 

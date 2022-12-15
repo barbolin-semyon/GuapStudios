@@ -1,4 +1,4 @@
-package com.example.guapstudios.ui.features.main.detailProject
+package com.example.guapstudios.ui.features.project.detailProject
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,14 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.ui.navigation.ProjectScreens
-import com.example.guapstudios.ui.theme.Blue
 import com.example.guapstudios.ui.theme.Gray
 import com.example.guapstudios.ui.theme.Magenta
 import com.example.guapstudios.ui.theme.Magenta2

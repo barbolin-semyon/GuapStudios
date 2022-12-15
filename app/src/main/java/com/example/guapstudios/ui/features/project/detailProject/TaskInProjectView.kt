@@ -1,4 +1,4 @@
-package com.example.guapstudios.ui.features.main.detailProject
+package com.example.guapstudios.ui.features.project.detailProject
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -19,7 +19,6 @@ import com.example.guapstudios.R
 import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.data.modelForJSON.DeleteTaskReceiveModel
 import com.example.guapstudios.data.modelForJSON.TaskDTO
-import com.example.guapstudios.ui.theme.Gray
 import com.example.guapstudios.ui.theme.Green
 import com.example.guapstudios.ui.theme.Red
 import com.example.guapstudios.ui.theme.Yellow

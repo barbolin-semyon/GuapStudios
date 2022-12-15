@@ -1,6 +1,5 @@
-package com.example.guapstudios.ui.features.main.detailProject
+package com.example.guapstudios.ui.features.project.detailProject
 
-import android.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
