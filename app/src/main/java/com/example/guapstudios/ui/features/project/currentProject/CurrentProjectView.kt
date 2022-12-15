@@ -247,7 +247,7 @@ fun AlertDialogDelete(projectViewModel: ProjectViewModel, project: Project) {
 }
 
 @Composable
-private fun ButtonToAdd(action: () -> Unit) {
+fun ButtonToAdd(action: () -> Unit) {
     IconButton(
         onClick = { action() },
         content = {

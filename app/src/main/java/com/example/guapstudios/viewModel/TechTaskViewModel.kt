@@ -54,8 +54,8 @@ class TechTaskViewModel : ViewModel() {
                             call: Call<ListResponceModel<TechTask>>,
                             response: Response<ListResponceModel<TechTask>>
                         ) {
-                            _tasks.value = response.body()?.let { projects ->
-                                projects.tasks
+                            _tasks.value = response.body()?.let { items ->
+                                items.tasks
                             }
                         }
 
@@ -64,6 +64,7 @@ class TechTaskViewModel : ViewModel() {
                             t: Throwable
                         ) {
                             //ERROR
+                            println()
                         }
 
                     })

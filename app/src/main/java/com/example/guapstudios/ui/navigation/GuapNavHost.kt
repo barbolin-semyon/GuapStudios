@@ -15,6 +15,7 @@ import com.example.guapstudios.ui.features.project.currentProject.CurrentProject
 import com.example.guapstudios.ui.features.project.detailProject.DetailProject
 import com.example.guapstudios.ui.features.project.detailProject.InputTask
 import com.example.guapstudios.ui.features.splash.SplashView
+import com.example.guapstudios.ui.features.techTask.TechTaskListView
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
 @Composable
@@ -59,7 +60,9 @@ private fun NavGraphBuilder.main(
             Profile(authorizationViewModel)
         }
         project(navController, authorizationViewModel)
-        composable(MainScreens.TechTaskScreen.route) { }
+        composable(MainScreens.TechTaskScreen.route) {
+            TechTaskListView(authorizationViewModel, navController)
+        }
     }
 }
 
@@ -76,14 +79,16 @@ private fun NavGraphBuilder.project(
         }
 
         composable(ProjectScreens.TaskInputProject.route) {
-            val currentProject = navController.previousBackStackEntry?.savedStateHandle?.get<String>("projectId")
+            val currentProject =
+                navController.previousBackStackEntry?.savedStateHandle?.get<String>("projectId")
             currentProject?.let { project ->
                 InputTask(projectId = project, navController = navController)
             }
         }
 
         composable(ProjectScreens.DetailProject.route) {
-            val currentProject = navController.previousBackStackEntry?.savedStateHandle?.get<Project>("project")
+            val currentProject =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Project>("project")
             currentProject?.let { project ->
                 DetailProject(navController = navController, project = project)
             }
