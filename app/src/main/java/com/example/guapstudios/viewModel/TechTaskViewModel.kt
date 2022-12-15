@@ -5,8 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.guapstudios.data.RetrofitClient
+import com.example.guapstudios.data.emptities.Project
+import com.example.guapstudios.data.emptities.Studio
 import com.example.guapstudios.data.emptities.TechTask
 import com.example.guapstudios.data.modelForJSON.*
+import com.example.guapstudios.data.retrofitService.ProjectRetrofitService
+import com.example.guapstudios.data.retrofitService.StudioRetrofitService
 import com.example.guapstudios.data.retrofitService.TaskRetrofitServivce
 import com.example.guapstudios.data.retrofitService.TechTaskRetrofitService
 import retrofit2.Call
@@ -21,28 +25,52 @@ class TechTaskViewModel : ViewModel() {
     val clientTechTask =
         RetrofitClient.getRetrofitService().create(TechTaskRetrofitService::class.java)
 
-    fun getTasks(index: Array<String>) {
+    private val clientStudio =
+        RetrofitClient.getRetrofitService().create(StudioRetrofitService::class.java)
 
-        clientTechTask.getTechTask(ListStringReceiveModel(index))
-            .enqueue(object : Callback<ListResponceModel<TechTask>> {
-                override fun onResponse(
-                    call: Call<ListResponceModel<TechTask>>,
-                    response: Response<ListResponceModel<TechTask>>
-                ) {
-                    _tasks.value = response.body()?.let { tasks ->
-                        tasks.tasks
-                    }
-                }
+    private val currentStudio = MutableLiveData<Studio>()
 
-                override fun onFailure(
-                    call: Call<ListResponceModel<TechTask>>,
-                    t: Throwable
-                ) {
-                    //ERROR
-                }
+    fun getStudioInformation(typeStudio: String) {
+        clientStudio.getStudio(typeStudio).enqueue(object : Callback<Studio> {
+            override fun onResponse(call: Call<Studio>, response: Response<Studio>) {
+                currentStudio.value = response.body()
+            }
 
-            })
+            override fun onFailure(call: Call<Studio>, t: Throwable) {
+                //ERROR
+            }
+
+        })
     }
+
+    fun getTechTaskInStudious(typeStudio: String) {
+        getStudioInformation(typeStudio)
+
+        currentStudio.observeForever {
+            it?.let { studio ->
+                clientTechTask.getTechTask(ListStringReceiveModel(it.tech_task))
+                    .enqueue(object : Callback<ListResponceModel<TechTask>> {
+                        override fun onResponse(
+                            call: Call<ListResponceModel<TechTask>>,
+                            response: Response<ListResponceModel<TechTask>>
+                        ) {
+                            _tasks.value = response.body()?.let { projects ->
+                                projects.tasks
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<ListResponceModel<TechTask>>,
+                            t: Throwable
+                        ) {
+                            //ERROR
+                        }
+
+                    })
+            }
+        }
+    }
+
 
     fun addTaskInProject(model: TechTask) {
         clientTechTask.addTechTask(model).enqueue(object :
