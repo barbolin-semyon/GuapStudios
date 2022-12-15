@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.guapstudios.data.emptities.Project
+import com.example.guapstudios.ui.features.Profile
 import com.example.guapstudios.ui.features.authorization.LoginView
 import com.example.guapstudios.ui.features.authorization.RegisterView
 import com.example.guapstudios.ui.features.main.currentProject.CurrentProjectView
@@ -55,7 +56,7 @@ private fun NavGraphBuilder.main(
         route = Screens.MainScreen.route
     ) {
         composable(MainScreens.ProfileScreen.route) {
-
+            Profile(authorizationViewModel)
         }
         project(navController, authorizationViewModel)
         composable(MainScreens.TechTaskScreen.route) { }
