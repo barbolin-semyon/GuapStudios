@@ -16,6 +16,6 @@ interface TaskRetrofitServivce {
      @POST("/project/tasks/delete")
     fun deleteTask(@Body model: DeleteTaskReceiveModel): Call<StringResponceModel>
 
-    @POST
+    @POST("/project/tasks/update")
     fun updateIsCheckTask(@Body model: UpdateTaskReceiveModel): Call<StringResponceModel>
 }
