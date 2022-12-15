@@ -1,26 +1,23 @@
 package com.example.guapstudios.ui.features.main.detailProject
 
-import android.graphics.Color
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.guapstudios.R
 import com.example.guapstudios.data.emptities.Project
+import com.example.guapstudios.data.modelForJSON.DeleteTaskReceiveModel
 import com.example.guapstudios.data.modelForJSON.TaskDTO
 import com.example.guapstudios.ui.theme.Gray
 import com.example.guapstudios.ui.theme.Green
@@ -40,18 +37,40 @@ fun TasksInProjectView(project: Project, navController: NavController) {
     state.value?.let { tasks ->
         LazyColumn {
             items(tasks) {
-                CardTask(taskDTO = it)
+                ContentTask(projectId = project.id, taskDTO = it, viewModel = viewModel)
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun ContentTask(projectId: String, taskDTO: TaskDTO, viewModel: TaskInProjectViewmodel) {
+    SwipeContainer(
+        dismissState = rememberDismissState(initialValue = DismissValue.Default),
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        leftIcon = R.drawable.ic_tech_task,
+        rightIcon = R.drawable.ic_delete,
+        leftSwipeAction = { viewModel.changeIsCheck(taskDTO) },
+        rightSwipeAction = {
+            viewModel.deleteTask(
+                DeleteTaskReceiveModel(
+                    projectId = projectId,
+                    taskId = taskDTO.id
+                )
+            )
+        }
+    ) {
+        CardTask(taskDTO = taskDTO)
+    }
+}
+
 @Composable
 fun CardTask(taskDTO: TaskDTO) {
+
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .fillMaxSize(),
         elevation = 8.dp
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
@@ -69,7 +88,9 @@ fun CardTask(taskDTO: TaskDTO) {
             )
             Text(
                 text = "Тип: ${taskDTO.mark}",
-                modifier = Modifier.padding(start = 8.dp, bottom = 16.dp, top = 8.dp).background(Yellow),
+                modifier = Modifier
+                    .padding(start = 8.dp, bottom = 16.dp, top = 8.dp)
+                    .background(Yellow),
             )
             Spacer(
                 modifier = Modifier
@@ -86,5 +107,6 @@ fun CardTask(taskDTO: TaskDTO) {
                     .padding(start = 8.dp, bottom = 8.dp)
             )
         }
+
     }
 }
