@@ -1,6 +1,7 @@
 package com.example.guapstudios.data.retrofitService
 
 import com.example.guapstudios.data.emptities.TechTask
+import com.example.guapstudios.data.modelForJSON.ListResponceModel
 import com.example.guapstudios.data.modelForJSON.ListStringReceiveModel
 import com.example.guapstudios.data.modelForJSON.ProjectDeleteReceiveModel
 import com.example.guapstudios.data.modelForJSON.StringResponceModel
@@ -16,5 +17,5 @@ interface TechTaskRetrofitService {
     fun deleteTechTask(@Body projectDeleteReceiveModel: ProjectDeleteReceiveModel): Call<StringResponceModel>
 
     @POST("/tech_task/get")
-    fun getTechTask(@Body listStringReceiveModel: ListStringReceiveModel): Call<StringResponceModel>
+    fun getTechTask(@Body listStringReceiveModel: ListStringReceiveModel): Call<ListResponceModel<TechTask>>
 }
