@@ -65,9 +65,14 @@ class TaskInProjectViewmodel : ViewModel() {
         })
     }
 
-    fun changeIsCheck(model: UpdateTaskReceiveModel) {
+    fun changeIsCheck(taskDTO: TaskDTO) {
 
-        clientTask.updateIsCheckTask(model).enqueue(object :
+        clientTask.updateIsCheckTask(
+            UpdateTaskReceiveModel(
+                id = taskDTO.id,
+                isCheck = taskDTO.isCheck.not()
+            )
+        ).enqueue(object :
             Callback<StringResponceModel> {
             override fun onResponse(
                 call: Call<StringResponceModel>,
