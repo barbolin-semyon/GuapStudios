@@ -31,20 +31,20 @@ import java.util.*
 fun TechTaskListView(authorizationViewModel: AuthorizationViewModel, navController: NavController) {
     val techViewModel: TechTaskViewModel = viewModel()
 
-    techViewModel.tasks.observeAsState()
+    val tasks = techViewModel.tasks.observeAsState()
+
     LaunchedEffect(key1 = Unit, block = {
         techViewModel.getTechTaskInStudious(authorizationViewModel.user!!.typeStudio)
     })
 
-    val tasks = techViewModel.tasks.value
 
     Column(Modifier.background(Gray)) {
         TechTaskToolbar(navController)
 
-        if (tasks != null) {
+        if (tasks.value != null) {
 
             LazyColumn() {
-                items(tasks) { techTask ->
+                items(tasks.value!!) { techTask ->
                     ContentCard(techTask, navController, techViewModel)
                 }
             }
