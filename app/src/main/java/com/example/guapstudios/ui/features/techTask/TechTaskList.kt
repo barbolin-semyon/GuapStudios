@@ -80,19 +80,12 @@ private fun ContentCard(
     navController: NavController,
     techTaskViewModel: TechTaskViewModel
 ) {
-    val razn = techTask.getDate()?.date?.minus(Calendar.getInstance().time.date)
-    val color = if (razn!! <= 3) {
-        Red
-    } else if (razn <= 7) {
-        Yellow
-    } else Green
-
     Card(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = color
+        backgroundColor = techTask.getColor()
     ) {
 
         Column(
