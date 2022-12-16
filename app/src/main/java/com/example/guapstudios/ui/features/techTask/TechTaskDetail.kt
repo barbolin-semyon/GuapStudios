@@ -7,6 +7,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -31,6 +32,7 @@ import com.skydoves.landscapist.glide.GlideImage
 @Composable
 fun TechTaskDetail(techTask: TechTask, authorizationViewModel: AuthorizationViewModel) {
     val viewModel: TechTaskViewModel = viewModel()
+    val isShowTakeBtn = viewModel.isUpdated.observeAsState()
 
     Box(
         Modifier.background(
@@ -89,7 +91,7 @@ fun TechTaskDetail(techTask: TechTask, authorizationViewModel: AuthorizationView
                     modifier = Modifier.padding(16.dp)
                 )
 
-                if (techTask.executor == "") {
+                if (techTask.executor == "" && isShowTakeBtn.value?.not() == true) {
                     Button(onClick = {
                         viewModel.updateExecutorInTechStudious(
                             TechTaskUpdateExecutor(
