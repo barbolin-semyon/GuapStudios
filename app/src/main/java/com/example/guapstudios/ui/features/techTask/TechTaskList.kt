@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.example.guapstudios.data.emptities.Project
 import com.example.guapstudios.data.emptities.TechTask
 import com.example.guapstudios.ui.features.project.currentProject.ButtonToAdd
+import com.example.guapstudios.ui.navigation.TechTaskScreens
 import com.example.guapstudios.ui.theme.*
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 import com.example.guapstudios.viewModel.TechTaskViewModel
@@ -136,7 +137,10 @@ private fun ContentCard(
                     .fillMaxWidth()
                     .padding(8.dp), horizontalArrangement = Arrangement.End
             ) {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    navController.currentBackStackEntry?.savedStateHandle?.set("techTask", techTask)
+                    navController.navigate(TechTaskScreens.DetailTechTask.route)
+                }) {
                     Text(text = "Подробнее", color = Color.White)
                 }
             }
