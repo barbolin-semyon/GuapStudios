@@ -93,7 +93,7 @@ class TechTaskViewModel : ViewModel() {
         })
     }
 
-    fun updateIsTakeInTechStudious(updateExecutor: TechTaskUpdateExecutor) {
+    fun updateExecutorInTechStudious(updateExecutor: TechTaskUpdateExecutor) {
         clientTechTask.updateExecutorTechTask(updateExecutor).enqueue(object : Callback<StringResponceModel> {
             override fun onResponse(
                 call: Call<StringResponceModel>,

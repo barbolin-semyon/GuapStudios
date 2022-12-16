@@ -22,11 +22,14 @@ import com.example.guapstudios.data.emptities.TechTask
 import com.example.guapstudios.ui.navigation.TechTaskScreens
 import com.example.guapstudios.ui.theme.Gray
 import com.example.guapstudios.ui.theme.Magenta
+import com.example.guapstudios.viewModel.AuthorizationViewModel
 import com.example.guapstudios.viewModel.TechTaskViewModel
+import com.skat.database.tech_task.TechTaskUpdateExecutor
+import com.skat.database.tech_task.TechTaskUpdateIsTake
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun TechTaskDetail(techTask: TechTask) {
+fun TechTaskDetail(techTask: TechTask, authorizationViewModel: AuthorizationViewModel) {
     val viewModel: TechTaskViewModel = viewModel()
 
     Box(
@@ -80,8 +83,53 @@ fun TechTaskDetail(techTask: TechTask) {
                     text = techTask.place
                 )
 
-                Text(text = techTask.description, fontSize = 20.sp, modifier = Modifier.padding(16.dp))
+                Text(
+                    text = techTask.description,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(16.dp)
+                )
 
+                if (techTask.isTake.not()) {
+                    Button(onClick = {
+                        viewModel.updateExecutorInTechStudious(
+                            TechTaskUpdateExecutor(
+                                id = techTask.id,
+                                executor = authorizationViewModel.user!!.login
+                            )
+                        )
+                    }) {
+                        Text("Взять ТЗ")
+                    }
+                }
+
+                if (authorizationViewModel.user!!.isAdmin) {
+
+                    TextWithValueAndKey(key = "Исполнитель", text = techTask.executor)
+
+                    Button(onClick = {
+                        viewModel.updateIsTakeInTechStudious(
+                            TechTaskUpdateIsTake(
+                                id = techTask.id,
+                                isTake = false
+                            )
+                        )
+                    }
+                    ) {
+                        Text("Подтвердить")
+                    }
+
+                    Button(onClick = {
+                        viewModel.updateIsTakeInTechStudious(
+                            TechTaskUpdateIsTake(
+                                id = techTask.id,
+                                isTake = true
+                            )
+                        )
+                    }
+                    ) {
+                        Text("Отклонить")
+                    }
+                }
             }
 
         }
@@ -107,8 +155,10 @@ fun TextWithValueAndKey(
         fontSize = 20.sp
     )
 
-    Spacer(modifier = Modifier
-        .height(3.dp)
-        .fillMaxWidth()
-        .background(Gray))
+    Spacer(
+        modifier = Modifier
+            .height(3.dp)
+            .fillMaxWidth()
+            .background(Gray)
+    )
 }
