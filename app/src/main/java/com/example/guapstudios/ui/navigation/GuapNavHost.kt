@@ -118,7 +118,7 @@ private fun NavGraphBuilder.techTask(
                 navController.previousBackStackEntry?.savedStateHandle?.get<TechTask>("techTask")
 
             techTask?.let {
-                TechTaskDetail(techTask = techTask)
+                TechTaskDetail(techTask = techTask, authorizationViewModel)
             }
         }
     }

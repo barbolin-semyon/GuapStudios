@@ -13,7 +13,7 @@ import java.util.*
 @kotlinx.serialization.Serializable
 data class TechTask(
     val costumer: String,
-    val executor: String,
+    val executor: String = "",
     val id: String = UUID.randomUUID().toString(),
     val studio: String,
     val title: String,

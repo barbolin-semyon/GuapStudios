@@ -89,7 +89,7 @@ fun TechTaskDetail(techTask: TechTask, authorizationViewModel: AuthorizationView
                     modifier = Modifier.padding(16.dp)
                 )
 
-                if (techTask.isTake.not()) {
+                if (techTask.executor == "") {
                     Button(onClick = {
                         viewModel.updateExecutorInTechStudious(
                             TechTaskUpdateExecutor(
