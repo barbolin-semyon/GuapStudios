@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.guapstudios.data.emptities.Project
+import com.example.guapstudios.data.emptities.TechTask
 import com.example.guapstudios.ui.features.Profile
 import com.example.guapstudios.ui.features.authorization.LoginView
 import com.example.guapstudios.ui.features.authorization.RegisterView
@@ -15,6 +16,7 @@ import com.example.guapstudios.ui.features.project.currentProject.CurrentProject
 import com.example.guapstudios.ui.features.project.detailProject.DetailProject
 import com.example.guapstudios.ui.features.project.detailProject.InputTask
 import com.example.guapstudios.ui.features.splash.SplashView
+import com.example.guapstudios.ui.features.techTask.TechTaskDetail
 import com.example.guapstudios.ui.features.techTask.TechTaskListView
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 
@@ -59,10 +61,9 @@ private fun NavGraphBuilder.main(
         composable(MainScreens.ProfileScreen.route) {
             Profile(authorizationViewModel)
         }
+
         project(navController, authorizationViewModel)
-        composable(MainScreens.TechTaskScreen.route) {
-            TechTaskListView(authorizationViewModel, navController)
-        }
+        techTask(navController, authorizationViewModel)
     }
 }
 
@@ -91,6 +92,33 @@ private fun NavGraphBuilder.project(
                 navController.previousBackStackEntry?.savedStateHandle?.get<Project>("project")
             currentProject?.let { project ->
                 DetailProject(navController = navController, project = project)
+            }
+        }
+    }
+}
+
+private fun NavGraphBuilder.techTask(
+    navController: NavController,
+    authorizationViewModel: AuthorizationViewModel
+) {
+    navigation(
+        startDestination = TechTaskScreens.ListTechTask.route,
+        route = MainScreens.TechTaskScreen.route
+    ) {
+        composable(TechTaskScreens.ListTechTask.route) {
+            TechTaskListView(authorizationViewModel, navController)
+        }
+
+        composable(TechTaskScreens.InputTechTask.route) {
+
+        }
+
+        composable(TechTaskScreens.DetailTechTask.route) {
+            val techTask =
+                navController.previousBackStackEntry?.savedStateHandle?.get<TechTask>("techTask")
+
+            techTask?.let {
+                TechTaskDetail(techTask = techTask)
             }
         }
     }

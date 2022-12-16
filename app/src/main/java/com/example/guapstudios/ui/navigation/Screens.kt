@@ -31,6 +31,12 @@ sealed class ProjectScreens(val route: String) {
     object TaskInputProject : ProjectScreens("taskInputProject")
 }
 
+sealed class TechTaskScreens(val route: String) {
+    object ListTechTask : ProjectScreens("listTechTask")
+    object DetailTechTask : ProjectScreens("detailTechTask")
+    object InputTechTask : ProjectScreens("taskInputTechTask")
+}
+
 val listOfScreensForBottomNav = listOf(
     MainScreens.ProjectScreen,
     MainScreens.TechTaskScreen,
