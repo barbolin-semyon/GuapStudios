@@ -1,6 +1,7 @@
 package com.example.guapstudios.viewModel
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,12 +14,16 @@ import com.example.guapstudios.data.retrofitService.AuthorizationRetrofitService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.log
 
 class AuthorizationViewModel : ViewModel() {
 
     var user: User? = null
         private set
 
+    val _tempUser = MutableLiveData<User>()
+    val tempUser: LiveData<User>
+        get() = _tempUser
 
     private val client = RetrofitClient.getRetrofitService()
         .create(AuthorizationRetrofitService::class.java)
@@ -45,6 +50,19 @@ class AuthorizationViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<TokenModel>, t: Throwable) {
+                Log.i("Retrofit", "login view Model: $t")
+            }
+
+        })
+    }
+
+    fun getUser(login: String) {
+        client.login(login).enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                _tempUser.value = response.body()
+            }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.i("Retrofit", "login view Model: $t")
             }
 

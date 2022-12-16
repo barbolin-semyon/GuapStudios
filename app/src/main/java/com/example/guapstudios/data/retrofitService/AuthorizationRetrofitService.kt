@@ -14,6 +14,9 @@ interface AuthorizationRetrofitService {
     @POST("login")
     fun login(@Body loginReciveModel: LoginReciveModel): Call<TokenModel>
 
+    @GET("user")
+    fun login(@Query("login") login: String): Call<User>
+
     @POST("register")
     fun register(@Body registerReciveModel: RegisterReciveModel): Call<TokenModel>
 

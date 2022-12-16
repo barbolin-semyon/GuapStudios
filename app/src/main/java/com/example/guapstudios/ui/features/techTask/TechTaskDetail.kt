@@ -7,11 +7,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -20,19 +20,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.guapstudios.data.emptities.TechTask
-import com.example.guapstudios.ui.navigation.TechTaskScreens
 import com.example.guapstudios.ui.theme.Gray
-import com.example.guapstudios.ui.theme.Magenta
 import com.example.guapstudios.viewModel.AuthorizationViewModel
 import com.example.guapstudios.viewModel.TechTaskViewModel
 import com.skat.database.tech_task.TechTaskUpdateExecutor
 import com.skat.database.tech_task.TechTaskUpdateIsTake
-import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
 fun TechTaskDetail(techTask: TechTask, authorizationViewModel: AuthorizationViewModel) {
     val viewModel: TechTaskViewModel = viewModel()
     val isShowTakeBtn = viewModel.isUpdated.observeAsState()
+    val executor = authorizationViewModel.tempUser.observeAsState()
+
+    LaunchedEffect(key1 = Unit, block = {
+        authorizationViewModel.getUser(techTask.executor)
+    })
 
     Box(
         Modifier.background(
@@ -104,15 +106,15 @@ fun TechTaskDetail(techTask: TechTask, authorizationViewModel: AuthorizationView
                     }
                 }
 
-                if (authorizationViewModel.user!!.isAdmin) {
+                if (authorizationViewModel.user!!.isAdmin && techTask.executor != "") {
 
-                    TextWithValueAndKey(key = "Исполнитель", text = techTask.executor)
+                    TextWithValueAndKey(key = "Исполнитель", text = executor.value?.username ?: "")
 
                     Button(onClick = {
                         viewModel.updateIsTakeInTechStudious(
                             TechTaskUpdateIsTake(
                                 id = techTask.id,
-                                isTake = false
+                                isTake = true
                             )
                         )
                     }
@@ -121,10 +123,10 @@ fun TechTaskDetail(techTask: TechTask, authorizationViewModel: AuthorizationView
                     }
 
                     Button(onClick = {
-                        viewModel.updateIsTakeInTechStudious(
-                            TechTaskUpdateIsTake(
+                        viewModel.updateExecutorInTechStudious(
+                            TechTaskUpdateExecutor(
                                 id = techTask.id,
-                                isTake = true
+                                executor = ""
                             )
                         )
                     }

@@ -49,7 +49,7 @@ class TechTaskViewModel : ViewModel() {
         })
     }
 
-    fun getTechTaskInStudious(typeStudio: String) {
+       fun getTechTaskInStudious(typeStudio: String) {
         getStudioInformation(typeStudio)
 
         currentStudio.observeForever {
