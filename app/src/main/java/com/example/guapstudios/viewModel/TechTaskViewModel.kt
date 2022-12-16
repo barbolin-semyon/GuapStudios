@@ -13,6 +13,8 @@ import com.example.guapstudios.data.retrofitService.ProjectRetrofitService
 import com.example.guapstudios.data.retrofitService.StudioRetrofitService
 import com.example.guapstudios.data.retrofitService.TaskRetrofitServivce
 import com.example.guapstudios.data.retrofitService.TechTaskRetrofitService
+import com.skat.database.tech_task.TechTaskUpdateExecutor
+import com.skat.database.tech_task.TechTaskUpdateIsTake
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +23,10 @@ class TechTaskViewModel : ViewModel() {
     private val _tasks = MutableLiveData<List<TechTask>>()
     val tasks: LiveData<List<TechTask>>
         get() = _tasks
+
+    private val _isUpdated = MutableLiveData<Boolean>(false)
+    val isUpdated: LiveData<Boolean>
+        get() = _isUpdated
 
     val clientTechTask =
         RetrofitClient.getRetrofitService().create(TechTaskRetrofitService::class.java)
@@ -72,6 +78,35 @@ class TechTaskViewModel : ViewModel() {
         }
     }
 
+    fun updateIsTakeInTechStudious(updateIsTake: TechTaskUpdateIsTake) {
+        clientTechTask.updateIsTakeTechTask(updateIsTake).enqueue(object : Callback<StringResponceModel> {
+            override fun onResponse(
+                call: Call<StringResponceModel>,
+                response: Response<StringResponceModel>
+            ) {
+                _isUpdated.value = true
+            }
+
+            override fun onFailure(call: Call<StringResponceModel>, t: Throwable) {
+
+            }
+        })
+    }
+
+    fun updateIsTakeInTechStudious(updateExecutor: TechTaskUpdateExecutor) {
+        clientTechTask.updateExecutorTechTask(updateExecutor).enqueue(object : Callback<StringResponceModel> {
+            override fun onResponse(
+                call: Call<StringResponceModel>,
+                response: Response<StringResponceModel>
+            ) {
+                _isUpdated.value = true
+            }
+
+            override fun onFailure(call: Call<StringResponceModel>, t: Throwable) {
+
+            }
+        })
+    }
 
     fun addTaskInProject(model: TechTask) {
         clientTechTask.addTechTask(model).enqueue(object :
