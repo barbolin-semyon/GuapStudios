@@ -1,5 +1,3 @@
-# GuapStudios
-
 <p align="center">
     <h1 align="center">Guap Studious</h1>
     </p>
